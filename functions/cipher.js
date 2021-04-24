@@ -1,6 +1,6 @@
 const { HttpError } = require("../httpError");
 
-const table = JSON.parse(require("fs").readFileSync("../mindall-app/table.json"));
+const table = JSON.parse(require("fs").readFileSync("../table.json"));
 
 // TODO:
 /*
