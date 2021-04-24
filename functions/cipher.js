@@ -110,7 +110,7 @@ function decode(code) {
 
 function decodeSymbol(encoded) {
     const codeRegExp = new RegExp(/(^\.?)\d+(\.?$)/);
-    let codeNumber = parseInt(encoded.replaceAll(/\D/g, ""));
+    let codeNumber = parseInt(encoded.replace(/\D/g, ""));
     let decodedText = "";
 
     // Codes should be valid to be processed
