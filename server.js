@@ -29,7 +29,6 @@ app.use("/cipher", cipherRoute);
 app.use(errorsMiddleware);
 
 // * SERVER STARTUP
-const host = process.env.LOCAL_NETWORK == "true" ? "192.168.0.107" : "localhost";
-app.listen(process.env.PORT, host, () => {
-    console.log(`Mindall App started on http://${host}:8080`);
+app.listen(process.env.PORT, () => {
+    console.log(`Mindall App started on http://localhost:8080`);
 });
