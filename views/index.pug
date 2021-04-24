@@ -1,0 +1,16 @@
+extends /layout.pug
+
+block content
+    div.results
+        textarea(readonly)#result Миндаль - хайповый шифр для крутых пацанов на основе таблицы Менделеева.
+    form.cipher-form
+        div#encodeForm.input-container 
+            label(for="message") 
+            input(type="text", name="message", placeholder="Текст")#encodeMessage
+            button#encodeBtn Зашифровать
+        dev#decodeForm.input-container.hidden
+            label(for="code")
+            input(type="text", name="code", placeholder="Шифр")#decodeMessage
+            button#decodeBtn Расшифровать
+    button#switchModesBtn Сменить режим
+    script(defer src="/public/js/main.js") 
