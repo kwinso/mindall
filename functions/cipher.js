@@ -1,6 +1,7 @@
 const { HttpError } = require("../httpError");
-
-const table = JSON.parse(require("fs").readFileSync("./table.json"));
+const fs = require("fs");
+const table = JSON.parse(fs.readFileSync("./table.json"));
+const translationMap = JSON.parse(fs.readFileSync("./translateMap.json"));
 
 // TODO:
 /*
@@ -11,7 +12,11 @@ const table = JSON.parse(require("fs").readFileSync("./table.json"));
 
 //#region ENDCODING
 function encode(text) {
-    const chars = text.split("");
+    // Replacing all russian chars with traslated to eng values
+    const chars = text.split("").reduce((str, ch) => {
+        return str + (translationMap[ch] ?? ch);
+    }, "").split("");
+    
     // Output string
     let encoded = "";
 
@@ -21,7 +26,7 @@ function encode(text) {
         let code = null;
 
         while (!code) {
-            const symbolToFind = chars.slice(i, i + digitsInSymbol).join("");
+            let symbolToFind = chars.slice(i, i + digitsInSymbol).join("");
             // Nothing to search, end of the string basically
             if (!symbolToFind) break;
 

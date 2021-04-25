@@ -1,4 +1,4 @@
-module.exports = function (error, _, res) {
+module.exports = function (error, _, res, next) {
     if (process.env.NODE_ENV != "prod") {
         console.log(error.stack);
     }
