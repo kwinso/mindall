@@ -3,7 +3,8 @@ extends /layout.pug
 block content
     div.results
         textarea(readonly)#result Миндаль - хайповый шифр для крутых пацанов на основе таблицы Менделеева.
-        button#copyResult Скопировать
+        button.result-button#copyResultBtn Скопировать
+        button.result-button#clearInputBtn Очистить
     form.cipher-form
         div#encodeForm.input-container 
             label(for="message") 

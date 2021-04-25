@@ -103,13 +103,18 @@ button:hover {
     resize: none;
     outline: none;
 }
-
-#copyResult {
-    padding: 5px;
+.result-button {
     position: absolute;
     top: auto;
-    right: 10px;
     bottom: -10px;
+    padding: 5px;
+}
+
+#copyResultBtn {
+    right: 10px;
+}
+#clearInputBtn {
+    left: 10px;
 }
 
 @media only screen and (max-width: 600px) {

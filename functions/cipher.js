@@ -92,7 +92,7 @@ function encodeSymbol(symbolToFind) {
 function decode(code) {
     let decoded = "";
     // replace extra spaces for convenient typing on phone
-    const symbols = code.replaceAll(" ", "").split(",");
+    const symbols = code.replace(/\ ./gm, "").split(",");
 
     for (let char of symbols) {
         if (char.startsWith("_")) {

@@ -4,18 +4,20 @@ const decodeMessage = document.querySelector("#decodeMessage");
 const decodeBtn = document.querySelector("#decodeBtn");
 const switchModesBtn = document.querySelector("#switchModesBtn");
 const result = document.querySelector("#result");
-const copyTextBtn = document.querySelector("#copyResult")
+const copyTextBtn = document.querySelector("#copyResultBtn");
+const clearInputBtn = document.querySelector("#clearInputBtn");
+let currentInput;
 
 encodeBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     processMessage(encodeMessage.value);
-    encodeMessage.value = "";
+    currentInput = encodeMessage;
 });
 
 decodeBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     processMessage(decodeMessage.value, "decode");
-    decodeMessage.value = "";
+    currentInput = decodeMessage;
 });
 
 async function processMessage(text, method="encode") {
@@ -56,4 +58,9 @@ copyTextBtn.addEventListener("click", (e) => {
     document.execCommand("copy");
 
     result.setSelectionRange(0, 0, "none");
+});
+
+clearInputBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    encodeMessage.value = decodeMessage.value = result.value = "";
 });
