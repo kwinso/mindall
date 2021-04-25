@@ -9,10 +9,8 @@ block content
         div#encodeForm.input-container 
             label(for="message") 
             input(type="text", name="message", placeholder="Текст", autocomplete="off")#encodeMessage
-            button#encodeBtn Зашифровать
         dev#decodeForm.input-container.hidden
             label(for="code")
             input(type="text", name="code", placeholder="Шифр", autocomplete="off")#decodeMessage
-            button#decodeBtn Расшифровать
-    button#switchModesBtn Сменить режим
+    button#switchModesBtn Режим дешифрования
     script(defer src="/public/js/main.js") 

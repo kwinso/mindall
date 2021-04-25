@@ -3,12 +3,13 @@ module.exports = function (error, _, res, next) {
         console.log(error.stack);
     }
 
-    if (error.code)
-        res.status(error.code);
-    else res.status(500);
+    let status = 500;
 
-    res.json({
+    if (error.code)
+        status = error.code;
+
+    res.status(status).json({
         error: true,
-        message: error.message,
+        message: status == 500 ? "Ошибка сервера" : error.message,
     });
 }

@@ -1,34 +1,39 @@
 const encodeMessage = document.querySelector("#encodeMessage");
-const encodeBtn = document.querySelector("#encodeBtn");
 const decodeMessage = document.querySelector("#decodeMessage");
-const decodeBtn = document.querySelector("#decodeBtn");
 const switchModesBtn = document.querySelector("#switchModesBtn");
 const result = document.querySelector("#result");
 const copyTextBtn = document.querySelector("#copyResultBtn");
 const clearInputBtn = document.querySelector("#clearInputBtn");
-let currentInput;
+const sendIn = 800;
 
-encodeBtn.addEventListener("click", async (e) => {
+let currentInput;
+let encodingMode = true;
+let processDataTimeout;
+
+
+encodeMessage.addEventListener("input", (e) => {
     e.preventDefault();
-    processMessage(encodeMessage.value);
+    if (processDataTimeout) clearTimeout(processDataTimeout);
+    processDataTimeout = setTimeout(() => processMessage(encodeMessage.value), sendIn);
     currentInput = encodeMessage;
 });
 
-decodeBtn.addEventListener("click", async (e) => {
+decodeMessage.addEventListener("input", (e) => {
     e.preventDefault();
-    processMessage(decodeMessage.value, "decode");
+    if (processDataTimeout) clearTimeout(processDataTimeout);
+    processDataTimeout = setTimeout(() => processMessage(decodeMessage.value, "decode"), sendIn);
     currentInput = decodeMessage;
 });
 
-async function processMessage(text, method="encode") {
+async function processMessage(text, method = "encode") {
     let resultText = ""
     if (!text) {
-        resultText = "Укажите текст для начала.";
+        resultText = "Укажите текст.";
     } else {
         try {
             const { data } = await axios.post(`/cipher/${method}`, { original: text });
             resultText = data.result;
-    
+
         } catch (e) {
             resultText = e.response.data.message ?? "Произошла ошибка."
         }
@@ -41,9 +46,13 @@ switchModesBtn.addEventListener("click", () => {
     const els = document.querySelectorAll(".input-container");
     const firstHidden = els[0].classList.contains("hidden");
     if (firstHidden) {
+        // Swithing to encoding;
+        switchModesBtn.innerText = "Режим дешифрования";
         els[0].classList.remove("hidden");
         els[1].classList.add("hidden");
     } else {
+        // Swithing to decoding;
+        switchModesBtn.innerText = "Режим шифрования";
         els[0].classList.add("hidden");
         els[1].classList.remove("hidden");
     }
