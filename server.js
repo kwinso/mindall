@@ -12,6 +12,7 @@ app.set('view engine', 'pug');
 app.set('view options', { basedir: __dirname});
 app.locals.basedir = path.join(__dirname, './views');
 app.use("/public", express.static(path.join(__dirname, 'public')));
+app.use("/favicon.ico", express.static("public/favicon.ico"));
 //#endregion
 
 //#region MIDDLEWARES SETUP
