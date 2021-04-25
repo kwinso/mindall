@@ -7,7 +7,7 @@
 
 :root {
     --accent: #b3274c;
-    --accent-alt: #992040;
+    --accent-alt: #1b1b1b;
     --background: #14132b;
     --background-alt: #1c1a3f;
 }
@@ -83,6 +83,7 @@ button:hover {
 }
 
 .results {
+    position: relative;
     width: 70%;
     height: 50%;
     max-height: 400px;
@@ -91,6 +92,7 @@ button:hover {
 }
 
 #result {
+    border-radius: 10px;
     padding: 10px;
     background-color: var(--background-alt);
     color: white;
@@ -102,10 +104,21 @@ button:hover {
     outline: none;
 }
 
+#copyResult {
+    padding: 5px;
+    position: absolute;
+    top: auto;
+    right: 10px;
+    bottom: -10px;
+}
+
 @media only screen and (max-width: 600px) {
     .results {
         width: 90%;
         height: 30%;
+    }
+    header {
+        width: auto;
     }
     .cipher-form {
         margin-top: 50px;
@@ -120,5 +133,9 @@ button:hover {
     #switchModesBtn {
         margin-top: 15px;
         margin-bottom: auto;
+    }
+
+    button:hover {
+        background: var(--accent);
     }
 }

@@ -14,7 +14,7 @@ const translationMap = JSON.parse(fs.readFileSync("./translateMap.json"));
 function encode(text) {
     // Replacing all russian chars with traslated to eng values
     const chars = text.split("").reduce((str, ch) => {
-        return str + (translationMap[ch] ?? ch);
+        return str + (translationMap[ch.toLowerCase()] ?? ch);
     }, "").split("");
     
     // Output string
@@ -91,7 +91,8 @@ function encodeSymbol(symbolToFind) {
 //#region DECODING
 function decode(code) {
     let decoded = "";
-    const symbols = code.split(",");
+    // replace extra spaces for convenient typing on phone
+    const symbols = code.replaceAll(" ", "").split(",");
 
     for (let char of symbols) {
         if (char.startsWith("_")) {
@@ -127,7 +128,7 @@ function decodeSymbol(encoded) {
         if (number == codeNumber) {
             // Getting only first/last/ or all chars in symbol.
             if (encoded.startsWith(".")) decodedText += symbol[0];
-            else if (encoded.endsWith(".") && encoded.length > 1) decodedText += symbol[1];
+            else if (encoded.endsWith(".") && encoded.length > 1) decodedText += symbol[symbol.length - 1];
             else decodedText += symbol;
         }
     }

@@ -29,6 +29,6 @@ app.use("/cipher", cipherRoute);
 app.use(errorsMiddleware);
 
 // * SERVER STARTUP
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, "192.168.0.107", () => {
     console.log(`Mindall App started on http://localhost:8080`);
 });
