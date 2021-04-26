@@ -2,6 +2,8 @@ const { HttpError } = require("../httpError");
 const fs = require("fs");
 const table = JSON.parse(fs.readFileSync("./table.json"));
 const translationMap = JSON.parse(fs.readFileSync("./translateMap.json"));
+const escapingChar = "+";
+const splitChar = ";";
 
 // TODO:
 /*
@@ -14,7 +16,7 @@ const translationMap = JSON.parse(fs.readFileSync("./translateMap.json"));
 function encode(text) {
     // Replacing all russian chars with traslated to eng values
     const chars = text.split("").reduce((str, ch) => {
-        return str + (translationMap[ch.toLowerCase()] ?? ch);
+        return str + (translationMap[ch] ?? ch);
     }, "").split("");
     
     // Output string
@@ -60,7 +62,7 @@ function encode(text) {
             if (!code) digitsInSymbol--;
             // No acceptable symbol found, leave char as it is.
             if (digitsInSymbol == 0) {
-                code = `$${symbolToFind},`;
+                code = `${escapingChar}${symbolToFind}${splitChar}`;
                 digitsInSymbol = symbolToFind.length;
             }
         }
@@ -72,15 +74,15 @@ function encode(text) {
     }
 
     // Return without trailing comma
-    return encoded.replace(/,$/, "");
+    return encoded.replace(/;$/, "");
 }
 
 function encodeSymbol(symbolToFind) {
     for (let { symbol, number } of table) {
         if (symbol == symbolToFind) {
-            return `${number},`;
+            return `${number}${splitChar}`;
         } else if (symbol.includes(symbolToFind)) {
-            return symbol.indexOf(symbolToFind) == 0 ? `.${number},` : `${number}.,`;
+            return (symbol.indexOf(symbolToFind) == 0 ? `.${number}` : `${number}.`) + splitChar;
         }
     }
 
@@ -92,7 +94,7 @@ function encodeSymbol(symbolToFind) {
 function decode(code) {
     let decoded = "";
     // replace extra spaces for convenient typing on phone
-    const symbols = code.replace(/\ ./gm, "").split(",");
+    const symbols = code.replace(/\ ./gm, "").split(splitChar);
 
     for (let char of symbols) {
         if (char.startsWith("_")) {
@@ -100,10 +102,10 @@ function decode(code) {
             char = char.slice(1);
         }
         // Process non-encoded characters
-        if (char.startsWith("$")) { 
+        if (char.startsWith(escapingChar)) { 
             let str = char.slice(1);
-            // if there's an empty string after $, its a comma
-            decoded += str == "" ? "," : str;
+            // if there's an empty string after $, its a split character
+            decoded += str == "" ? splitChar : str;
             continue;
         }
         if (!char) continue;

@@ -46,13 +46,9 @@ switchModesBtn.addEventListener("click", () => {
     const els = document.querySelectorAll(".input-container");
     const firstHidden = els[0].classList.contains("hidden");
     if (firstHidden) {
-        // Swithing to encoding;
-        switchModesBtn.innerText = "Режим дешифрования";
         els[0].classList.remove("hidden");
         els[1].classList.add("hidden");
     } else {
-        // Swithing to decoding;
-        switchModesBtn.innerText = "Режим шифрования";
         els[0].classList.add("hidden");
         els[1].classList.remove("hidden");
     }

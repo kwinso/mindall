@@ -7,7 +7,6 @@
 
 :root {
     --accent: #b3274c;
-    --accent-alt: #1b1b1b;
     --background: #14132b;
     --background-alt: #1c1a3f;
 }
@@ -65,7 +64,7 @@ button {
 }
 
 button:hover {
-    background-color: var(--accent-alt);
+    background-color: #1b1b1b;
 }
 .cipher-form {
     display: flex;
