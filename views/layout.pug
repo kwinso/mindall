@@ -8,11 +8,15 @@ html(lang="en")
         meta(name="og:image" content="https://mindall.herokuapp.com/public/lock.png")
         meta(name="og:title" content="Миндаль")
         meta(name="og:description" content="Миндаль - хайповый шифр для крутых пацанов на основе таблицы Мендлеева.")
-        title Mindall
-
         link(rel="stylesheet", href="/public/css/main.css")
         script(defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js") 
+
+        block head
     body
         header
-            h2.logo Mindall
+            h2.logo
+                a(href="/") Mindall
+            div.links
+                button
+                    a(href="/chat") Чат
         block content

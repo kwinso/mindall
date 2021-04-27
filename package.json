@@ -13,6 +13,8 @@
     "dotenv": "*",
     "express": "*",
     "nodemon": "*",
-    "pug": "*"
+    "pug": "*",
+    "socket.io": "*",
+    "xss": "*"
   }
 }

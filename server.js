@@ -1,15 +1,20 @@
 require("dotenv").config();
 
 const express = require("express");
+const sanitize = require("xss");
 const app = express();
+const httpServer = require("http").createServer(app);
 const path = require("path");
+const io = require("socket.io")(httpServer);
 const errorsMiddleware = require("./middlewares/errors");
 const cipherRoute = require("./routes/cipher");
+const { addUser, removeUser, getUser, getUserByName, getAllUsers } = require("./chatUsers");
+const { encode } = require("./functions/cipher");
 
 //#region PUBLIC FOLDER SETUP
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'pug');
-app.set('view options', { basedir: __dirname});
+app.set('view options', { basedir: __dirname });
 app.locals.basedir = path.join(__dirname, './views');
 app.use("/public", express.static(path.join(__dirname, 'public')));
 app.use("/favicon.ico", express.static("public/favicon.ico"));
@@ -23,13 +28,59 @@ app.use(express.json());
 app.get("/", (_, res) => {
     res.render("index");
 });
+app.get("/chat", (_, res) => {
+    res.render("chat");
+});
 app.use("/cipher", cipherRoute);
 //#endregion
 
 // * ERROR HANDLER
 app.use(errorsMiddleware);
 
+
+// * SOCKET IO
+io.on("connection", socket => {
+    socket.on("join:request", (username) => {
+        username = sanitize(username);
+        const existingUser = getUserByName(username);
+        if (existingUser) {
+            return socket.emit("join:reject_name");
+            // TODO: Make an exception for existing user
+        }
+        const user = addUser(username, socket.id);
+        socket.emit("join:accept", user.name);
+    });
+
+    socket.on("join:logged", () => {
+        const user = getUser(socket.id);
+        io.emit("join:new", user.name);
+        const greeting = `Привет, ${user.name}!`;
+        io.emit("message:new", { username: "Mindall Chat", text: greeting});
+    });
+
+    socket.on("users:request", () => {
+        const users = getAllUsers();
+        socket.emit("users:list", users);
+    });
+
+    socket.on("message:send", (text) => {
+        text = sanitize(text);
+        const encoded = encode(text);
+        const user = getUser(socket.id);
+        io.emit("message:new", { username: user.name, text: encoded, decoded: text });
+    });
+
+    socket.on('disconnect', () => {
+        const removedUser = removeUser(socket.id);
+        if (removedUser) {
+            const notificationText = `Пользователь ${removedUser.name} вышел`;
+            io.emit("message:new", { username: "Mindall chat", text: notificationText })
+            io.emit("leave");
+        }
+    });
+});
+
 // * SERVER STARTUP
-app.listen(process.env.PORT, () => {
+httpServer.listen(process.env.PORT,  () => {
     console.log(`Mindall App started on http://localhost:8080`);
 });

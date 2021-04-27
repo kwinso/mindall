@@ -7,8 +7,7 @@ const splitChar = ";";
 
 // TODO:
 /*
-    1. Fix reversing algorithm and update decoding algorithm to add reversing
-    2. Add termination char (x) to decoding (the opposit of dot (.) ) 
+    1. Add termination char (x) to decoding (the opposit of dot (.) ) 
 */
 
 
@@ -33,21 +32,6 @@ function encode(text) {
             if (!symbolToFind) break;
 
             switch (symbolToFind) {
-                // TODO: make it work
-                // case "!": {
-                //     console.log("!")
-                //     let parts = chars.slice(i + 1).join("").split("!");
-                //     const toReverse = parts[0];
-                //     if (toReverse.length && parts[1]) {
-                //         encoded += `!${encode(toReverse.split("").reverse().join(""))}!`;
-                //     } else {
-                //         break;
-                //     }
-                //     i += toReverse.length + 2;
-
-                //     code = "";
-                // }
-                // Replace space with underscore
                 case " ": {
                     code = "_";
                     break;

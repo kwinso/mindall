@@ -9,27 +9,78 @@
     --accent: #b3274c;
     --background: #14132b;
     --background-alt: #1c1a3f;
+    --accent-dark: #971e3f;
 }
 
 body {
     font-family: "Roboto", sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 100vh;
+    justify-content: space-between;
     align-items: center;
     color: white;
     margin: 0;
     background-color: var(--background);
     width: 100vw;
+    height: 100vh;
 }
 
 header {
-    display: inline;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     text-indent: 10px;
     color: var(--accent);
 }
+
+input {
+    border: 2px solid var(--accent);
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 12px;
+    
+}
+
+input:focus {
+    outline: none;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: var(--accent);
+}
+
+a:hover {
+    color: white;
+}
+
+.links {
+    padding-right: 30px;
+    font-style: 20px;
+}
+
+.links button {
+    margin-top: 20px;
+    padding: 5px 10px;
+
+}
+
+.links a {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
 
 .input-container {
     display: flex;
@@ -39,10 +90,6 @@ header {
     flex-direction: column;
 }
 
-.input-container.hidden {
-    display: none;
-}
-
 .input-container input {
     border: 2px solid var(--accent);
     background-color: whitesmoke;
@@ -50,9 +97,6 @@ header {
     border-radius: 12px;
     width: 55%;
     margin-bottom: 15px;
-}
-input:focus {
-    outline: none;
 }
 
 button {
@@ -64,7 +108,7 @@ button {
 }
 
 button:hover {
-    background-color: #1b1b1b;
+    background-color: var(--accent-dark);
 }
 .cipher-form {
     display: flex;
@@ -116,13 +160,28 @@ button:hover {
     left: 10px;
 }
 
+.hidden {
+    display: none;
+}
+
+
+
+button:disabled {
+    background-color: var(--accent-dark);
+}
+
+
 @media only screen and (max-width: 600px) {
+    body {
+        overflow-y: hidden;
+    }
     .results {
         width: 90%;
         height: 30%;
     }
-    header {
-        width: auto;
+
+    .links a {
+        font-size: 15px;
     }
     .cipher-form {
         margin-top: 50px;
