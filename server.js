@@ -38,6 +38,7 @@ app.use("/cipher", cipherRoute);
 app.use(errorsMiddleware);
 
 
+let typingUsers = [];
 // * SOCKET IO
 io.on("connection", socket => {
     socket.on("join:request", (username) => {
@@ -54,6 +55,7 @@ io.on("connection", socket => {
     socket.on("join:logged", () => {
         const user = getUser(socket.id);
         io.emit("join:new", user.name);
+        socket.emit("users:typing", typingUsers);
         const greeting = `Привет, ${user.name}!`;
         io.emit("message:new", { username: "Mindall Chat", text: greeting});
     });
@@ -62,18 +64,38 @@ io.on("connection", socket => {
         const users = getAllUsers();
         socket.emit("users:list", users);
     });
-
+    //#region messages
     socket.on("message:send", (text) => {
         text = sanitize(text);
         const encoded = encode(text);
         const user = getUser(socket.id);
+        typingUsers = typingUsers.filter(u => u.id != socket.id);
+        io.emit("users:typing", typingUsers);
         io.emit("message:new", { username: user.name, text: encoded, decoded: text });
     });
+
+    socket.on("message:typing:start", () => {
+        const user = getUser(socket.id);
+        if (user) {
+            if (!typingUsers.find(u => u.id == user.id)) {
+                typingUsers.push(user);
+                socket.broadcast.emit("users:typing", typingUsers);
+            }
+        }
+    });
+    socket.on("message:typing:stop", () => {
+        typingUsers = typingUsers.filter(u => u.id != socket.id);
+        io.emit("users:typing", typingUsers);
+    });
+    //#endregion
+   
 
     socket.on('disconnect', () => {
         const removedUser = removeUser(socket.id);
         if (removedUser) {
             const notificationText = `Пользователь ${removedUser.name} вышел`;
+            typingUsers = typingUsers.filter(u => u.id != socket.id);
+            io.emit("users:typing", typingUsers);
             io.emit("message:new", { username: "Mindall chat", text: notificationText })
             io.emit("leave");
         }
