@@ -5,11 +5,13 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "author": "undermxuse",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "*",
     "express": "*",
     "nodemon": "*",

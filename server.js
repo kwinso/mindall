@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const sanitize = require("xss");
+const cors = require("cors");
 const app = express();
 const httpServer = require("http").createServer(app);
 const path = require("path");
@@ -18,6 +19,9 @@ app.set('view options', { basedir: __dirname });
 app.locals.basedir = path.join(__dirname, './views');
 app.use("/public", express.static(path.join(__dirname, 'public')));
 app.use("/favicon.ico", express.static("public/favicon.ico"));
+// Using new version for app
+app.use("/new", express.static(path.join(__dirname, "client/build")));
+app.use(cors({ origin: "*" }));
 //#endregion
 
 //#region MIDDLEWARES SETUP
