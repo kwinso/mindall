@@ -53,7 +53,7 @@ export default function TranslateForm() {
     }
 
     return (
-        <>
+        <div className={styles["translate-form"]} >
             <div className={styles['mode-swapper']}>
                 <span>{isEncodingMode ? "Текст" : "Шифр"}</span>
                 <img src={Swap} alt="Swap" onClick={swapModes} />
@@ -85,6 +85,6 @@ export default function TranslateForm() {
                 <img src={History} alt="History" />
                 <span>История</span>
             </div>
-        </>
+        </div>
     );
 }

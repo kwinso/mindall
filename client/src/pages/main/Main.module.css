@@ -1,0 +1,23 @@
+.history-container {
+    border-top-left-radius: 20px;
+    margin-top: 75px;
+    width: 25%;
+    height: 100%;
+    background-color: var(--bright-bg);
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+.history-header span {
+    padding-right: 20%;
+    font-size: 40px;
+}
+.history-header img {
+    top: 5px;
+    left: 5px;
+    width: 80px;
+}

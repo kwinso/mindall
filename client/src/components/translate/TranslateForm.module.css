@@ -1,15 +1,16 @@
-.translate {
+.translate-form {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin-top: 50px;
-    width: 60%;
+    align-items: center;
+    width: 70%;
+    margin: auto;
+    margin-top: 75px;
 }
 
 .mode-swapper {
-    margin-top: 50px;
     box-sizing: border-box;
-    width: 60%;
+    width: 90%;
     max-width: 900px;
     height: 55px;
     background-color: var(--bright-bg);
@@ -40,7 +41,7 @@
 .results {
     max-width: 900px;
     display: flex;
-    width: 60%;
+    width: 90%;
 }
 
 textarea {
@@ -103,14 +104,18 @@ textarea::placeholder {
 }
 
 @media only screen and (max-width: 900px) {
+    .translate-form {
+        margin-top: 30px;
+        width: 90%;
+    }
     .mode-swapper {
-        width: 85%;
+        width: 90%;
         /* filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.7)); */
     }
     .results {
         flex-direction: column;
         align-items: center;
-        width: 85%;
+        width: 90%;
         margin: auto;
     }
     .results textarea {

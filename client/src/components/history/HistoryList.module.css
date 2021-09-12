@@ -1,0 +1,44 @@
+.list {
+    overflow-y: auto;
+    margin: auto;
+    padding: 0;
+    width: 90%;
+    height: 100%;
+    padding-bottom: 30px;
+    box-sizing: border-box;
+}
+
+.list::-webkit-scrollbar {
+    display: none;
+}
+
+.list li:last-child hr {
+    display: none;
+}
+
+.hr:last-child .list {
+    display: none;
+}
+
+.list li {
+    cursor: pointer;
+    margin: auto;
+    list-style-type: none;
+}
+.list li:hover {
+    opacity: 0.5;
+}
+
+.list li span {
+    padding: 0 5px;
+}
+
+.original {
+    color: var(--text);
+    font-size: 35px;
+}
+
+.translated {
+    font-size: 20px;
+    color: var(--placeholder)
+}
