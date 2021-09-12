@@ -39,7 +39,7 @@ export default function TranslateForm() {
 
         setTextSwapped(false);
        
-    }, [originalText, isEncodingMode]);
+    }, [originalText]);
 
     function swapModes() {
         if (translatedText) {

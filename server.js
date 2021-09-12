@@ -17,10 +17,8 @@ app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'pug');
 app.set('view options', { basedir: __dirname });
 app.locals.basedir = path.join(__dirname, './views');
-app.use("/public", express.static(path.join(__dirname, 'public')));
-app.use("/favicon.ico", express.static("public/favicon.ico"));
 // Using new version for app
-app.use("/new", express.static(path.join(__dirname, "client/build")));
+app.use("/", express.static(path.join(__dirname, "client/build")));
 app.use(cors({ origin: "*" }));
 //#endregion
 
@@ -29,12 +27,6 @@ app.use(express.json());
 //#endregion
 
 //#region ROUTING CONFIGURATION
-app.get("/", (_, res) => {
-    res.render("index");
-});
-app.get("/chat", (_, res) => {
-    res.render("chat");
-});
 app.use("/cipher", cipherRoute);
 //#endregion
 
