@@ -1,0 +1,50 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    margin: auto;
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 35px;
+}
+.logo img {
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+}
+
+.chat {
+    width: 45px;
+    height: 45px;
+    background-color: var(--bright-bg);
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+}
+.chat img {
+    cursor: pointer;
+    width: 25px;
+}
+
+.chat:hover {
+    opacity: 0.8;
+}
+
+@media only screen and (max-width: 900px) {
+    .logo {
+        padding: 5px 15px;
+        border-radius: 20px;
+        background-color: var(--bright-bg);
+        font-size: 25px;
+    }
+    .logo img {
+        width: 30px;
+        height: 30px;
+    }
+}

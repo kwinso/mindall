@@ -1,0 +1,134 @@
+.translate {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 50px;
+    width: 60%;
+}
+
+.mode-swapper {
+    margin-top: 50px;
+    box-sizing: border-box;
+    width: 60%;
+    max-width: 900px;
+    height: 55px;
+    background-color: var(--bright-bg);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    font-size: 25px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.mode-swapper span {
+    padding-left: 10px;
+}
+
+.mode-swapper img {
+    position: absolute;
+    cursor: pointer;
+    height: 35px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+.results {
+    max-width: 900px;
+    display: flex;
+    width: 60%;
+}
+
+textarea {
+    box-sizing: border-box;
+    height: 200px;
+    width: 50%;
+    resize: none;
+    outline: none;
+    font-size: 25px;
+    padding: 0 20px;
+    background-color: var(--bright-bg);
+    border: none;
+    color: var(--text);
+    border-top: 20px solid var(--bright-bg);
+    border-bottom: 20px solid var(--bright-bg);
+    scrollbar-color: var(--bright-bg);
+    scrollbar-track-color: #fff8dc;
+}
+
+textarea::placeholder {
+    font-family: "Roboto", sans-serif;
+    color: var(--placeholder)
+}
+
+.input {
+    border-radius: 20px 0 0 20px;
+}
+
+.output {
+    cursor: default;
+    opacity: 0.6;
+    border-radius: 0 20px 20px 0;
+}
+
+.history {
+    padding: 10px;
+    margin: auto;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 25px;
+    color: var(--text);
+    border-radius: 20px;
+}
+
+.history img {
+    width: 45px;
+}
+
+@media only screen and (min-width: 900px) {
+    .mode-swapper img:hover {
+        opacity: 0.6;
+    }
+    .history:hover {
+        background-color: var(--bright-bg);
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .mode-swapper {
+        width: 85%;
+        /* filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.7)); */
+    }
+    .results {
+        flex-direction: column;
+        align-items: center;
+        width: 85%;
+        margin: auto;
+    }
+    .results textarea {
+        width: 100%;
+    }
+    .input {
+        border-radius: 20px 20px 0 0;
+    }
+    .output {
+        border-radius: 0 0 20px 20px;
+    }
+    .history {
+        top: auto;
+        margin-top: 25px;
+        /* bottom: 25px; */
+        font-size: 18px;
+    }
+    .history img {
+        width: 30px;
+    }
+}
