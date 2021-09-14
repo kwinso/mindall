@@ -6,7 +6,7 @@ import Header from './components/header/Header';
 
 function App() {
   return (
-    <div>
+    <div className="wrapper">
       <Header />
       <Switch>
         <Route path="/" exact>

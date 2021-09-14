@@ -1,35 +1,34 @@
 .list {
-    overflow-y: auto;
     margin: auto;
+    margin-right: 0;
+    height: calc(100% - 75px);
     padding: 0;
-    width: 90%;
-    height: 100%;
-    padding-bottom: 30px;
+    width: 100%;
+    padding: 10px 25px;
     box-sizing: border-box;
+    overflow-y: auto;
+    scrollbar-color: var(--accent) var(--background);
+    scrollbar-width: thin;
 }
 
-.list::-webkit-scrollbar {
-    display: none;
-}
 
-.list li:last-child hr {
-    display: none;
-}
-
-.hr:last-child .list {
-    display: none;
-}
-
-.list li {
+.list div {
+    user-select: none;
     cursor: pointer;
     margin: auto;
-    list-style-type: none;
+    border-bottom: 1px solid var(--placeholder);
+    margin-bottom: 10px;
 }
-.list li:hover {
+
+.list div:last-child {
+    border: 0px;
+}
+
+.list div:hover {
     opacity: 0.5;
 }
 
-.list li span {
+.list div span {
     padding: 0 5px;
 }
 

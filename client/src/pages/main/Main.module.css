@@ -1,8 +1,15 @@
+.container {
+    display: flex;
+    margin-top: 75px;
+    height: calc(92% - 75px);
+    width: 100%;
+}
+
 .history-container {
     border-top-left-radius: 20px;
-    margin-top: 75px;
-    width: 25%;
+    padding: 10px 0;
     height: 100%;
+    width: 30%;
     background-color: var(--bright-bg);
 }
 
@@ -13,11 +20,11 @@
     text-align: center;
 }
 .history-header span {
-    padding-right: 20%;
+    padding-right: 25px;
+    padding-bottom: 10px;
     font-size: 40px;
 }
 .history-header img {
-    top: 5px;
-    left: 5px;
-    width: 80px;
+    margin-left: 25px;
+    width: 40px;
 }

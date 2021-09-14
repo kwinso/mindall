@@ -6,13 +6,17 @@ import TranslateForm from "../../components/translate/TranslateForm";
 import RightArrow from "../../assets/Right.svg";
 import styles from "./Main.module.css";
 
+// ToDo: Animation for opening and closing
+// ToDo: Handling new translations
 export default function Main() {
     const [isHistoryOpened, setHistoryOpened] = useState<boolean>(false);
+    const [selected, setSelected] = useState<HistoryElement | null>(null);
     const [history, setHistory] = useState<HistoryElement[]>([]);
 
     function onHistorySelect(selected: HistoryElement) {
-
+        setSelected(selected);
     }
+
 
     useEffect(() => {
         const savedHistory = localStorage.getItem("history");
@@ -27,21 +31,23 @@ export default function Main() {
     }, []);
 
     return (
-        <div className="container">
-            <TranslateForm />
+        <div className={styles.container}>
+            <TranslateForm selected={selected} />
             {
-                window.screen.width <= 900 ?
-                    (<SwipablePopup isOpened={isHistoryOpened}>
-                        <HistoryList list={history} onSelect={onHistorySelect} />
-                    </ SwipablePopup>) :
+                // rendering different type of history based on screen width
+                window.screen.width >= 900 ?
                     (<div className={styles["history-container"]}>
                         <div className={styles["history-header"]}>
                             <img src={RightArrow} alt="close" />
                             <span>История</span>
                         </div>
                         <HistoryList list={history} onSelect={onHistorySelect} />
-                    </div>)
+                    </div>) :
+                    (<SwipablePopup isOpened={isHistoryOpened}>
+                        <HistoryList list={history} onSelect={onHistorySelect} />
+                    </ SwipablePopup>)
+
             }
-        </div>
+        </div >
     )
 }

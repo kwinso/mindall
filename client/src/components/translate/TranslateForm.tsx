@@ -4,11 +4,12 @@ import Swap from "../../assets/Swap.svg";
 import History from "../../assets/History.svg";
 import axios from "axios";
 
-export default function TranslateForm() {
-    const [originalText, setOriginalText] = useState<string>("");
+// TODO: Refactor and make less repetition when handling selection in history
+export default function TranslateForm({ selected }: { selected: HistoryElement | null }) {
+    const [originalText, setOriginalText] = useState<string>(selected?.originalText ?? "");
+    const [translatedText, setTranslatedText] = useState<string>(selected?.translatedText ?? "");
+    const [isEncodingMode, setEncodingMode] = useState<boolean>(selected?.isFromText ?? true);
     const [isTextSwapped, setTextSwapped] = useState<boolean>(false);
-    const [translatedText, setTranslatedText] = useState<string>("");
-    const [isEncodingMode, setEncodingMode] = useState<boolean>(true);
     const [typingTimeout, setTypingTimeout] = useState<any>();
 
     useEffect(() => {
@@ -40,6 +41,12 @@ export default function TranslateForm() {
         setTextSwapped(false);
        
     }, [originalText]);
+
+    useEffect(() => {
+        setOriginalText(selected?.originalText ?? "");
+        setTranslatedText(selected?.translatedText ?? "");
+        setEncodingMode(selected?.isFromText ?? true);
+    }, [selected]);
 
     function swapModes() {
         if (translatedText) {

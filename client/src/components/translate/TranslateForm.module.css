@@ -4,8 +4,7 @@
     flex-direction: column;
     align-items: center;
     width: 70%;
-    margin: auto;
-    margin-top: 75px;
+    margin: 0 auto;
 }
 
 .mode-swapper {
