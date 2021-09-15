@@ -1,7 +1,7 @@
 /// <reference types="react-scripts" />
 
-interface HistoryElement {
+interface Translation {
     originalText: string,
     translatedText: string,
-    isFromText: boolean,
+    isEncoding: boolean,
 }

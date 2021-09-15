@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Header.module.css";
+import styles from "./styles.module.css";
 import Logo from "../../assets/Logo.svg";
 import Chat from "../../assets/Chat.svg";
 

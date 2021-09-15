@@ -34,10 +34,17 @@
 
 .original {
     color: var(--text);
-    font-size: 35px;
+    font-size: 30px;
 }
 
 .translated {
+    text-overflow: ellipsis;
     font-size: 20px;
     color: var(--placeholder)
+}
+
+.empty {
+    font-size: 30px;
+    color: var(--placeholder);
+
 }

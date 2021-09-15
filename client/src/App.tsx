@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Main from './pages/main/Main';
 import Chat from './pages/chat/Chat';
-import Header from './components/header/Header';
+import Header from './components/Header';
 
 function App() {
   return (
