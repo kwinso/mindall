@@ -12,19 +12,19 @@ export default function TranslateHistory(props: { id?: string, list: Translation
     return (
         <div id={props.id} className={styles.list}>
             {
-                props.list.length ? 
-                (
-                    [...props.list].reverse().map(({ originalText, translatedText, isEncoding }, i) => {
-                        return (<div key={i} title="Перевести снова" onClick={() => props.onSelect({ originalText, translatedText,  isEncoding })}>
-                            <span className={styles.original}>{cropText(originalText, 20)}</span>
-                            <br />
-                            <span className={styles.translated}>{cropText(translatedText, 30)}</span>
-                        </div>);
-                    })
-                ) :
-                (
-                    <span className={styles.empty}>Здесь пока ничего.</span>
-                )
+                props.list.length ?
+                    (
+                        [...props.list].reverse().map(({ originalText, translatedText, isEncoding }, i) => {
+                            return (<div key={i} title="Перевести снова" onClick={() => props.onSelect({ originalText, translatedText, isEncoding })}>
+                                <span className={styles.original}>{cropText(originalText, 20)}</span>
+                                <br />
+                                <span className={styles.translated}>{cropText(translatedText, 30)}</span>
+                            </div>);
+                        })
+                    ) :
+                    (
+                        <span className={styles.empty}>Здесь пока ничего.</span>
+                    )
             }
         </div>
     )

@@ -7,11 +7,20 @@
 
 .history-container {
     border-top-left-radius: 20px;
+    transform: scaleX(0);
     padding: 10px 0;
-    width: 30%;
+    opacity: 0;
+    width: 0px;
     height: 100%;
     background-color: var(--bright-bg);
-    transition: opacity .5s ease-in-out;
+    transition: .15s ease-in-out;
+    transform-origin: 100% 50%;
+}
+
+.history-container.active {
+    transform: scaleX(100%);
+    width: 30%;
+    opacity: 1;
 }
 
 .history-header {
@@ -28,8 +37,12 @@
 }
 
 .history-header img {
+    cursor: pointer;
     margin-left: 25px;
     width: 40px;
+}
+.history-header img:hover {
+    opacity: 0.8;
 }
 
 .translate-wrapper {
