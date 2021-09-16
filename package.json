@@ -1,6 +1,6 @@
 {
   "name": "mindall-app",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "App for encoding messages with cipher based on periodic table.",
   "main": "server.js",
   "scripts": {

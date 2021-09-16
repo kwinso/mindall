@@ -18,7 +18,7 @@ app.set('view engine', 'pug');
 app.set('view options', { basedir: __dirname });
 app.locals.basedir = path.join(__dirname, './views');
 // Using new version for app
-app.use("/", express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "client/build")));
 app.use(cors({ origin: "*" }));
 //#endregion
 
@@ -30,9 +30,13 @@ app.use(express.json());
 app.use("/cipher", cipherRoute);
 //#endregion
 
+// Redirect any unmatched path to web page
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
+
 // * ERROR HANDLER
 app.use(errorsMiddleware);
-
 
 let typingUsers = [];
 // * SOCKET IO
