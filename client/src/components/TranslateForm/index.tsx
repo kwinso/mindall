@@ -9,6 +9,7 @@ export default function TranslateForm({ selected, save }: { selected: Translatio
     const [isEncoding, setEncoding] = useState<boolean>(selected.isEncoding);
     const [isTextSwapped, setTextSwapped] = useState<boolean>(false);
     const [typingTimeout, setTypingTimeout] = useState<any>();
+    const [isUpdatedFromHistory, setIsUpdatedFromHistory] = useState<boolean>(false); 
 
     useEffect(() => {
         const from = document.querySelector("textarea#from") as HTMLTextAreaElement;
@@ -20,7 +21,7 @@ export default function TranslateForm({ selected, save }: { selected: Translatio
     }, [isEncoding]);
 
     useEffect(() => {
-        if (originalText && !isTextSwapped) {
+        if (originalText && !isTextSwapped && !isUpdatedFromHistory) {
             clearTimeout(typingTimeout);
             setTypingTimeout(setTimeout(async () => {
                 try {
@@ -37,15 +38,17 @@ export default function TranslateForm({ selected, save }: { selected: Translatio
                         setTranslatedText(e.response.data.message);
                     }
                 }
-                
+
             }, 1000));
         }
 
         setTextSwapped(false);
-       
+        setIsUpdatedFromHistory(false);
+
     }, [originalText]);
 
     useEffect(() => {
+        setIsUpdatedFromHistory(true);
         setOriginalText(selected.originalText);
         setTranslatedText(selected.translatedText);
         setEncoding(selected?.isEncoding);
@@ -58,7 +61,7 @@ export default function TranslateForm({ selected, save }: { selected: Translatio
             setTranslatedText(original);
             setTextSwapped(true);
         }
-        
+
         setEncoding(!isEncoding);
     }
 
