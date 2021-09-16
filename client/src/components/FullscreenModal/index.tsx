@@ -7,10 +7,11 @@ interface Props {
 }
 
 export default function FullscreenModal({ isOpened, children }: Props) {
+    // Disable scrolling when modal is open
     useEffect(() => {
-        if (isOpened)
-            window.scrollTo({ top: 0 });
+        document.body.style.overflowY = isOpened ? "hidden" : "auto";
     }, [isOpened]);
+
     return (
         isOpened ? (
             <div className={styles.modal}>

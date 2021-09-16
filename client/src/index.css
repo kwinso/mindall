@@ -25,6 +25,9 @@ body {
   box-sizing: border-box;
 }
 
+img {
+  user-select: none;
+}
 
 .wrapper {
   clear: both;

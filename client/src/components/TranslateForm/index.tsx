@@ -3,13 +3,16 @@ import styles from "./styles.module.css";
 import Swap from "../../assets/Swap.svg";
 import axios from "axios";
 
-export default function TranslateForm({ selected, save }: { selected: Translation, save: (arg1: Translation) => void }) {
+export default function TranslateForm({ selected, save: saveToLocalStorage }: { selected: Translation, save: (arg1: Translation) => void }) {
     const [originalText, setOriginalText] = useState<string>(selected.originalText);
     const [translatedText, setTranslatedText] = useState<string>(selected.translatedText);
+    // Should we encode or decode?
     const [isEncoding, setEncoding] = useState<boolean>(selected.isEncoding);
     const [isTextSwapped, setTextSwapped] = useState<boolean>(false);
+    // Used to request API with delay
     const [typingTimeout, setTypingTimeout] = useState<any>();
-    const [isUpdatedFromHistory, setIsUpdatedFromHistory] = useState<boolean>(false); 
+    // Used to prevent requesting already known value from history
+    const [isPastedFromHistory, setIsPastedFromHistory] = useState<boolean>(false); 
 
     useEffect(() => {
         const from = document.querySelector("textarea#from") as HTMLTextAreaElement;
@@ -22,13 +25,17 @@ export default function TranslateForm({ selected, save }: { selected: Translatio
 
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
-        if (originalText && !isTextSwapped && !isUpdatedFromHistory) {
+        // Should request only if new text was passed to the input
+        // (Means excluding something pasted from history or just swapped already encoded value)
+        if (originalText && !isTextSwapped && !isPastedFromHistory) {
+            // Timeout is used to give user some time to end the phrase
             clearTimeout(typingTimeout);
             setTypingTimeout(setTimeout(async () => {
                 try {
                     const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN}/cipher/${isEncoding ? "encode" : "decode"}`, { original: originalText });
                     setTranslatedText(data.result);
-                    save({
+
+                    saveToLocalStorage({
                         translatedText: data.result,
                         originalText,
                         isEncoding
@@ -42,14 +49,15 @@ export default function TranslateForm({ selected, save }: { selected: Translatio
 
             }, 1000));
         }
-
+        // After we checked current original text update, we can drop all indicators for text
+        // So we know that the next text change will be ok to translate
         setTextSwapped(false);
-        setIsUpdatedFromHistory(false);
+        setIsPastedFromHistory(false);
 
     }, [originalText]);
 
     useEffect(() => {
-        setIsUpdatedFromHistory(true);
+        setIsPastedFromHistory(true);
         setOriginalText(selected.originalText);
         setTranslatedText(selected.translatedText);
         setEncoding(selected?.isEncoding);

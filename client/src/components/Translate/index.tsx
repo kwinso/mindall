@@ -9,6 +9,7 @@ const mobileScreenWidth = 900;
 
 export default function Translate() {
     const [isHistoryOpened, setHistoryOpened] = useState<boolean>(false);
+    // Selected value from history. By default is empty
     const [selected, setSelected] = useState<Translation>({ originalText: "", translatedText: "", isEncoding: true });
     const [history, setHistory] = useState<Translation[]>([]);
     const historyListRef = useRef<HTMLDivElement>(null);
@@ -16,15 +17,13 @@ export default function Translate() {
 
     function onHistorySelect(selected: Translation) {
         setSelected(selected);
+        // If item was selected with mobile fullscreen modal, modal should be closed
         if (window.screen.width <= mobileScreenWidth) {
             setHistoryOpened(false);
         }
     }
 
-    function clearHistory() {
-        setHistory([]);
-    }
-
+   
 
     useEffect(() => {
         const savedHistory = localStorage.getItem("history");
@@ -42,6 +41,11 @@ export default function Translate() {
         setHistory([...history, newSave]);
     }
 
+    function clearHistory() {
+        setHistory([]);
+    }
+
+    // Keep in sync with saved state
     useEffect(() => {
         localStorage.setItem("history", JSON.stringify(history));
     }, [history]);
@@ -49,6 +53,8 @@ export default function Translate() {
 
     function toggleHistory() {
         setHistoryOpened(!isHistoryOpened);
+
+        // Toggle animations for desktop history sidebar
         if (window.screen.width >= mobileScreenWidth) {
             const isOpened = historyListRef.current?.classList.contains(styles.active);
             if (isOpened) {
@@ -58,6 +64,7 @@ export default function Translate() {
         }
 
     }
+    
     return (
         <div className={styles.container}>
             <div className={styles["translate-wrapper"]}>
