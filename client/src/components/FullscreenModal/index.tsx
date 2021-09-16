@@ -1,15 +1,21 @@
-import React, { ReactChild, ReactChildren } from "react";
+import React, { ReactChild, useEffect } from "react";
+import styles from "./styles.module.css";
 
 interface Props {
     isOpened: boolean;
-    children: ReactChild | ReactChildren,
+    children: ReactChild | ReactChild[],
 }
 
-export default function SwipablePopup(props: Props) {
-    if (!props.isOpened) {
-        return null;
-    }
+export default function FullscreenModal({ isOpened, children }: Props) {
+    useEffect(() => {
+        if (isOpened)
+            window.scrollTo({ top: 0 });
+    }, [isOpened]);
     return (
-        <div>Hello</div>
-    )
+        isOpened ? (
+            <div className={styles.modal}>
+                { children }
+            </div>
+        ) : null
+    );
 }

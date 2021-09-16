@@ -19,7 +19,6 @@
     padding: 0px 20px;
     font-size: 25px;
     margin-bottom: 25px;
-    position: relative;
 }
 
 .mode-swapper span {
@@ -91,7 +90,6 @@ textarea::placeholder {
     }
     .mode-swapper {
         width: 90%;
-        /* filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.7)); */
     }
     .results {
         flex-direction: column;

@@ -20,6 +20,7 @@ export default function TranslateForm({ selected, save }: { selected: Translatio
 
     }, [isEncoding]);
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if (originalText && !isTextSwapped && !isUpdatedFromHistory) {
             clearTimeout(typingTimeout);

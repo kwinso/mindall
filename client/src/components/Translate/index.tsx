@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import SwipablePopup from "../FullscreenModal";
+import FullscreenModal from "../FullscreenModal";
 import TranslateForm from "../TranslateForm";
-import RightArrow from "../../assets/Right.svg";
-import TranslateHistory from "../TranslateHistory";
 import History from "../../assets/History.svg";
-import Trash from "../../assets/Trash.svg";
 import styles from "./styles.module.css";
+import TranslateHistory from "../TranslateHistory";
+
+const mobileScreenWidth = 900;
 
 export default function Translate() {
     const [isHistoryOpened, setHistoryOpened] = useState<boolean>(false);
@@ -16,11 +16,14 @@ export default function Translate() {
 
     function onHistorySelect(selected: Translation) {
         setSelected(selected);
+        if (window.screen.width <= mobileScreenWidth) {
+            setHistoryOpened(false);
+        }
     }
 
     function clearHistory() {
         setHistory([]);
-    } 
+    }
 
 
     useEffect(() => {
@@ -44,13 +47,16 @@ export default function Translate() {
     }, [history]);
 
 
-    // ToDo: Animation for opening
     function toggleHistory() {
-        const isOpened = historyListRef.current?.classList.contains(styles.active);
-        if (isOpened) {
-            return historyListRef.current?.classList.remove(styles.active);
+        setHistoryOpened(!isHistoryOpened);
+        if (window.screen.width >= mobileScreenWidth) {
+            const isOpened = historyListRef.current?.classList.contains(styles.active);
+            if (isOpened) {
+                return historyListRef.current?.classList.remove(styles.active);
+            }
+            return historyListRef.current?.classList.add(styles.active);
         }
-        return historyListRef.current?.classList.add(styles.active);
+
     }
     return (
         <div className={styles.container}>
@@ -62,24 +68,25 @@ export default function Translate() {
                 </div>
             </ div>
             {
-                // rendering different type of history based on screen width
-                window.screen.width >= 900 ?
+
+                // rendering different representation of history based on screen width
+                window.screen.width >= mobileScreenWidth ?
                     (<div ref={historyListRef} id="history" className={styles["history-container"]}>
-                        <div className={styles["history-header"]}>
-                            <img src={RightArrow} alt="close" onClick={toggleHistory} />
-                            <span>История</span>
-                        </div>
-                        <TranslateHistory list={history} onSelect={onHistorySelect} />
-                        <div className={styles["history-menu"]} >
-                            <div className={styles["menu-btn"]} onClick={clearHistory}>
-                                <img src={Trash} alt="clear" />
-                                <span>Очистить</span>
-                            </div>
-                        </div>
+                        <TranslateHistory
+                            clearHistory={clearHistory}
+                            history={history}
+                            onHistorySelect={onHistorySelect}
+                            toggleHistory={toggleHistory}
+                        />
                     </div>) :
-                    (<SwipablePopup isOpened={isHistoryOpened}>
-                        <TranslateHistory list={history} onSelect={onHistorySelect} />
-                    </ SwipablePopup>)
+                    (<FullscreenModal isOpened={isHistoryOpened}>
+                        <TranslateHistory
+                            clearHistory={clearHistory}
+                            history={history}
+                            onHistorySelect={onHistorySelect}
+                            toggleHistory={toggleHistory}
+                        />
+                    </ FullscreenModal>)
 
             }
         </div >
