@@ -99,6 +99,6 @@ io.on("connection", socket => {
 });
 
 // * SERVER STARTUP
-httpServer.listen(process.env.PORT,  () => {
-    console.log(`Mindall App started on http://localhost:8080`);
+httpServer.listen(process.env.PORT, process.env.HOST,  () => {
+    console.log(`Mindall App started on http://${process.env.HOST}:${process.env.PORT}`);
 });
