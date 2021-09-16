@@ -6,6 +6,7 @@
 }
 
 .history-container {
+    user-select: none;
     border-top-left-radius: 20px;
     transform: scaleX(0);
     padding: 10px 0;
@@ -24,6 +25,7 @@
 }
 
 .history-header {
+    height: 15%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -72,6 +74,29 @@
 
 .history-btn:hover {
     background-color: var(--bright-bg);
+}
+
+.history-menu {
+    padding: 5px 10px;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.menu-btn {
+    margin: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.menu-btn:hover {
+    opacity: 0.6;
+    /* background-color: var(--background); */
+}
+
+.menu-btn img {
+    width: 37px;
 }
 
 @media only screen and (max-width: 900px) {

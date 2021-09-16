@@ -4,18 +4,23 @@ import TranslateForm from "../TranslateForm";
 import RightArrow from "../../assets/Right.svg";
 import TranslateHistory from "../TranslateHistory";
 import History from "../../assets/History.svg";
+import Trash from "../../assets/Trash.svg";
 import styles from "./styles.module.css";
 
 export default function Translate() {
     const [isHistoryOpened, setHistoryOpened] = useState<boolean>(false);
     const [selected, setSelected] = useState<Translation>({ originalText: "", translatedText: "", isEncoding: true });
     const [history, setHistory] = useState<Translation[]>([]);
-    const historyListRef = useRef<HTMLDivElement>(null); 
+    const historyListRef = useRef<HTMLDivElement>(null);
 
 
     function onHistorySelect(selected: Translation) {
         setSelected(selected);
     }
+
+    function clearHistory() {
+        setHistory([]);
+    } 
 
 
     useEffect(() => {
@@ -44,7 +49,7 @@ export default function Translate() {
         const isOpened = historyListRef.current?.classList.contains(styles.active);
         if (isOpened) {
             return historyListRef.current?.classList.remove(styles.active);
-        } 
+        }
         return historyListRef.current?.classList.add(styles.active);
     }
     return (
@@ -65,6 +70,12 @@ export default function Translate() {
                             <span>История</span>
                         </div>
                         <TranslateHistory list={history} onSelect={onHistorySelect} />
+                        <div className={styles["history-menu"]} >
+                            <div className={styles["menu-btn"]} onClick={clearHistory}>
+                                <img src={Trash} alt="clear" />
+                                <span>Очистить</span>
+                            </div>
+                        </div>
                     </div>) :
                     (<SwipablePopup isOpened={isHistoryOpened}>
                         <TranslateHistory list={history} onSelect={onHistorySelect} />
