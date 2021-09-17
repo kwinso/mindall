@@ -1,7 +1,6 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Main from './pages/main/Main';
-import Chat from './pages/chat/Chat';
 import Header from './components/Header';
 
 function App() {
@@ -12,9 +11,10 @@ function App() {
         <Route path="/" exact>
           <Main />
         </Route>
-        <Route path="/chat">
+        {/* <Route path="/chat">
           <Chat />
-        </Route>
+        </Route> */}
+        <Redirect to="/" />
       </Switch>
     </div>
   );

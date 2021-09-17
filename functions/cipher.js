@@ -107,7 +107,7 @@ function decodeSymbol(encoded) {
 
     // Codes should be valid to be processed
     if (!codeRegExp.test(encoded)) {
-        throw new HttpError("Неверный шифр.", 400);
+        throw new HttpError("Неверный код.", 400);
     }
 
     for (let { number, symbol } of table) {

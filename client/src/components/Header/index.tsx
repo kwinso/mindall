@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./styles.module.css";
 import Logo from "../../assets/Logo.svg";
-import Chat from "../../assets/Chat.svg";
 
 export default function Header() {
     return (
@@ -10,12 +9,11 @@ export default function Header() {
                 <img src={Logo} alt="Logo" />
                 <span>Mindall</span>
             </div>
-            <a href="/chat">
+            {/* <a href="/chat">
                 <button className={styles.chat}>
                     <img src={Chat} alt="Chat" />
                 </button>
-            </a>
-
+            </a> */}
         </header>
     );
 }

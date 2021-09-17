@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import Swap from "../../assets/Swap.svg";
 import axios from "axios";
+import { useHotkeys } from "react-hotkeys-hook";
+
 
 export default function TranslateForm({ selected, save: saveToLocalStorage }: { selected: Translation, save: (arg1: Translation) => void }) {
     const [originalText, setOriginalText] = useState<string>(selected.originalText);
@@ -18,8 +20,8 @@ export default function TranslateForm({ selected, save: saveToLocalStorage }: { 
         const from = document.querySelector("textarea#from") as HTMLTextAreaElement;
         const to = document.querySelector("textarea#to") as HTMLTextAreaElement;
 
-        from.placeholder = isEncoding ? "Текст..." : "Шифр...";
-        to.placeholder = isEncoding ? "Шифр..." : "Текст...";
+        from.placeholder = isEncoding ? "Текст..." : "Код...";
+        to.placeholder = isEncoding ? "Код..." : "Текст...";
 
     }, [isEncoding]);
 
@@ -63,23 +65,23 @@ export default function TranslateForm({ selected, save: saveToLocalStorage }: { 
         setEncoding(selected?.isEncoding);
     }, [selected]);
 
+
     function swapModes() {
         if (translatedText) {
             const original = originalText;
-            setOriginalText(translatedText === "Неверный шифр." ? "" : translatedText);
+            setOriginalText(translatedText === "Неверный код." ? "" : translatedText);
             setTranslatedText(original);
             setTextSwapped(true);
         }
-
         setEncoding(!isEncoding);
     }
 
     return (
         <div className={styles["translate-form"]} >
             <div className={styles['mode-swapper']}>
-                <span>{isEncoding ? "Текст" : "Шифр"}</span>
-                <img src={Swap} alt="Swap" onClick={swapModes} />
-                <span>{isEncoding ? "Шифр" : "Текст"}</span>
+                <span>{isEncoding ? "Текст" : "Код"}</span>
+                <img title="Развернуть текст (Shift + S)" src={Swap} alt="Swap" onClick={swapModes} />
+                <span>{isEncoding ? "Код" : "Текст"}</span>
             </div>
 
             <div className={styles.results}>
@@ -98,7 +100,7 @@ export default function TranslateForm({ selected, save: saveToLocalStorage }: { 
                     className={styles.output}
                     cols={40} rows={10}
                     readOnly
-                    placeholder="Шифр..."
+                    placeholder="Код..."
                     defaultValue={translatedText}
                 >
                 </textarea>

@@ -7,6 +7,7 @@
 }
 
 .mode-swapper {
+    position: relative;
     box-sizing: border-box;
     width: 90%;
     max-width: 900px;
@@ -68,7 +69,7 @@ textarea::placeholder {
 }
 
 .output {
-    cursor: default;
+    cursor: text;
     opacity: 0.6;
     border-radius: 0 20px 20px 0;
 }

@@ -4,6 +4,7 @@ import TranslateForm from "../TranslateForm";
 import History from "../../assets/History.svg";
 import styles from "./styles.module.css";
 import TranslateHistory from "../TranslateHistory";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const mobileScreenWidth = 900;
 
@@ -14,7 +15,6 @@ export default function Translate() {
     const [history, setHistory] = useState<Translation[]>([]);
     const historyListRef = useRef<HTMLDivElement>(null);
 
-
     function onHistorySelect(selected: Translation) {
         setSelected(selected);
         // If item was selected with mobile fullscreen modal, modal should be closed
@@ -22,8 +22,6 @@ export default function Translate() {
             setHistoryOpened(false);
         }
     }
-
-   
 
     useEffect(() => {
         const savedHistory = localStorage.getItem("history");
@@ -50,7 +48,6 @@ export default function Translate() {
         localStorage.setItem("history", JSON.stringify(history));
     }, [history]);
 
-
     function toggleHistory() {
         setHistoryOpened(!isHistoryOpened);
 
@@ -62,14 +59,16 @@ export default function Translate() {
             }
             return historyListRef.current?.classList.add(styles.active);
         }
-
     }
-    
+
+    // Shortcut
+    useHotkeys("shift + h", toggleHistory);
+
     return (
         <div className={styles.container}>
             <div className={styles["translate-wrapper"]}>
                 <TranslateForm selected={selected} save={saveToHistory} />
-                <div className={styles["history-btn"]} onClick={toggleHistory}>
+                <div title="Открыть Историю (Shift + H)" className={styles["history-btn"]} onClick={toggleHistory}>
                     <img src={History} alt="History" />
                     <span>История</span>
                 </div>
