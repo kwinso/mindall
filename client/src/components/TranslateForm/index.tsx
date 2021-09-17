@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import Swap from "../../assets/Swap.svg";
 import axios from "axios";
-import { useHotkeys } from "react-hotkeys-hook";
-
 
 export default function TranslateForm({ selected, save: saveToLocalStorage }: { selected: Translation, save: (arg1: Translation) => void }) {
     const [originalText, setOriginalText] = useState<string>(selected.originalText);
