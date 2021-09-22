@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import Swap from "../../assets/Swap.svg";
+import Copy from "../../assets/Copy.svg";
 import axios from "axios";
 
 export default function TranslateForm({ selected, save: saveToLocalStorage }: { selected: Translation, save: (arg1: Translation) => void }) {
@@ -12,7 +13,7 @@ export default function TranslateForm({ selected, save: saveToLocalStorage }: { 
     // Used to request API with delay
     const [typingTimeout, setTypingTimeout] = useState<any>();
     // Used to prevent requesting already known value from history
-    const [isPastedFromHistory, setIsPastedFromHistory] = useState<boolean>(false); 
+    const [isPastedFromHistory, setIsPastedFromHistory] = useState<boolean>(false);
 
     useEffect(() => {
         const from = document.querySelector("textarea#from") as HTMLTextAreaElement;
@@ -29,17 +30,19 @@ export default function TranslateForm({ selected, save: saveToLocalStorage }: { 
         // (Means excluding something pasted from history or just swapped already encoded value)
         if (originalText && !isTextSwapped && !isPastedFromHistory) {
             // Timeout is used to give user some time to end the phrase
-            clearTimeout(typingTimeout);
+            if (typingTimeout) clearTimeout(typingTimeout);
             setTypingTimeout(setTimeout(async () => {
                 try {
                     const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN}/cipher/${isEncoding ? "encode" : "decode"}`, { original: originalText });
+
                     setTranslatedText(data.result);
 
                     saveToLocalStorage({
                         translatedText: data.result,
                         originalText,
                         isEncoding
-                    })
+                    });
+
                 } catch (e: any) {
                     // @ts-ignore
                     if (e?.response?.data?.error) {
@@ -49,6 +52,9 @@ export default function TranslateForm({ selected, save: saveToLocalStorage }: { 
 
             }, 1000));
         }
+
+        // Clear translated text if original text is none
+        if (!originalText && translatedText) setTranslatedText("");
         // After we checked current original text update, we can drop all indicators for text
         // So we know that the next text change will be ok to translate
         setTextSwapped(false);
@@ -72,6 +78,20 @@ export default function TranslateForm({ selected, save: saveToLocalStorage }: { 
             setTextSwapped(true);
         }
         setEncoding(!isEncoding);
+    }
+
+    function copyTranslated() {
+        try {
+            navigator.clipboard.writeText(translatedText);
+        } catch {
+            let result = document.querySelector("#to") as HTMLInputElement;
+            result.select();
+            result.setSelectionRange(0, 9999);
+
+            document.execCommand("copy");
+
+            result.setSelectionRange(0, 0, "none");
+        }
     }
 
     return (
@@ -99,9 +119,12 @@ export default function TranslateForm({ selected, save: saveToLocalStorage }: { 
                     cols={40} rows={10}
                     readOnly
                     placeholder="Код..."
-                    defaultValue={translatedText}
+                    value={translatedText}
                 >
                 </textarea>
+                <button onClick={copyTranslated} className={styles["copy-button"]}>
+                    <img src={Copy} alt="Copy" />
+                </button>
             </div>
         </div>
     );

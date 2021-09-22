@@ -37,6 +37,7 @@
 }
 
 .results {
+    position: relative;
     max-width: 900px;
     display: flex;
     width: 90%;
@@ -74,6 +75,28 @@ textarea::placeholder {
     border-radius: 0 20px 20px 0;
 }
 
+.results button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+.copy-button {
+    position: absolute;
+    background-color:tomato;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 10px;
+    margin-right: 20px;
+
+}
+.copy-button img {
+    height: auto;
+    width: 32px;
+}
+
+.copy-button img:hover {
+    opacity: .8;
+}
 
 @media only screen and (min-width: 900px) {
     .mode-swapper img:hover {
