@@ -3,10 +3,8 @@
   --text: #E7E9EE;
   --bright-bg: #24232A;
   --placeholder: #616161;
-  --accent: #2A59BB;
-
+  --accent: #EE3636;
 }
-
 
 body {
   overflow-x: hidden;
@@ -14,9 +12,7 @@ body {
   margin: 0;
   color: var(--text);
   background-color: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont,'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

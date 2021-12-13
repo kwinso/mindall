@@ -70,8 +70,9 @@ textarea::placeholder {
 }
 
 .output {
+    background-color: rgba(31, 30, 35, 1);
     cursor: text;
-    opacity: 0.6;
+    border-color: rgba(31, 30, 35, 1);
     border-radius: 0 20px 20px 0;
 }
 
@@ -80,15 +81,17 @@ textarea::placeholder {
     outline: none;
     background-color: transparent;
 }
+
 .copy-button {
     position: absolute;
-    background-color:tomato;
+    background-color: tomato;
     bottom: 0;
     right: 0;
     margin-bottom: 10px;
     margin-right: 20px;
 
 }
+
 .copy-button img {
     height: auto;
     width: 32px;
@@ -102,6 +105,7 @@ textarea::placeholder {
     .mode-swapper img:hover {
         opacity: 0.6;
     }
+
     .history:hover {
         background-color: var(--bright-bg);
     }
@@ -112,21 +116,26 @@ textarea::placeholder {
         margin-top: 30px;
         width: 90%;
     }
+
     .mode-swapper {
         width: 90%;
     }
+
     .results {
         flex-direction: column;
         align-items: center;
         width: 90%;
         margin: auto;
     }
+
     .results textarea {
         width: 100%;
     }
+
     .input {
         border-radius: 20px 20px 0 0;
     }
+
     .output {
         border-radius: 0 0 20px 20px;
     }

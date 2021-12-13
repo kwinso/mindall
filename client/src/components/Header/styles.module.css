@@ -14,10 +14,12 @@ header {
     align-items: center;
     font-size: 35px;
 }
+
 .logo img {
     width: 45px;
-    height: 45px;
-    margin-right: 10px;
+    height: 40px;
+    /* Move logo closer for the new year theme */
+    /* margin-right: 10px; */
 }
 
 .chat {
@@ -28,6 +30,7 @@ header {
     padding: 10px;
     border-radius: 20px;
 }
+
 .chat img {
     cursor: pointer;
     width: 25px;
@@ -38,13 +41,20 @@ header {
 }
 
 @media only screen and (max-width: 900px) {
+    .header {
+        justify-content: "center";
+    }
+
     .logo {
         padding: 5px 15px;
         border-radius: 20px;
         background-color: var(--bright-bg);
         font-size: 25px;
     }
+
     .logo img {
+        /* 10px is for the new year theme, 5px for default */
+        margin-right: 5px;
         width: 30px;
         height: 30px;
     }
