@@ -11,7 +11,7 @@ const mobileScreenWidth = 900;
 export default function Translate() {
     const [isHistoryOpened, setHistoryOpened] = useState<boolean>(false);
     // Selected value from history. By default is empty
-    const [selected, setSelected] = useState<Translation>({ originalText: "", translatedText: "", isEncoding: true });
+    const [selected, setSelected] = useState<Translation | undefined>();
     const [history, setHistory] = useState<Translation[]>([]);
     const historyListRef = useRef<HTMLDivElement>(null);
 
@@ -72,29 +72,29 @@ export default function Translate() {
                     <img src={History} alt="History" />
                     <span>История</span>
                 </div>
-            </ div>
+            </div>
             {
-
                 // rendering different representation of history based on screen width
-                window.screen.width >= mobileScreenWidth ?
-                    (<div ref={historyListRef} id="history" className={styles["history-container"]}>
+                window.screen.width >= mobileScreenWidth ? (
+                    <div ref={historyListRef} id="history" className={styles["history-container"]}>
                         <TranslateHistory
                             clearHistory={clearHistory}
                             history={history}
                             onHistorySelect={onHistorySelect}
                             toggleHistory={toggleHistory}
                         />
-                    </div>) :
-                    (<FullscreenModal isOpened={isHistoryOpened}>
+                    </div>
+                ) : (
+                    <FullscreenModal isOpened={isHistoryOpened}>
                         <TranslateHistory
                             clearHistory={clearHistory}
                             history={history}
                             onHistorySelect={onHistorySelect}
                             toggleHistory={toggleHistory}
                         />
-                    </ FullscreenModal>)
-
+                    </FullscreenModal>
+                )
             }
-        </div >
-    )
+        </div>
+    );
 }

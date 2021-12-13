@@ -9,13 +9,13 @@ export default function TranslateForm({
     selected,
     save: saveToLocalStorage,
 }: {
-    selected: Translation;
+    selected?: Translation;
     save: (arg1: Translation) => void;
 }) {
-    const [originalText, setOriginalText] = useState<string>(selected.originalText);
-    const [translatedText, setTranslatedText] = useState<string>(selected.translatedText);
+    const [originalText, setOriginalText] = useState<string>(selected?.originalText ?? "");
+    const [translatedText, setTranslatedText] = useState<string>(selected?.translatedText ?? "");
     // Should we encode or decode?
-    const [isEncoding, setEncoding] = useState<boolean>(selected.isEncoding);
+    const [isEncoding, setEncoding] = useState<boolean>(selected?.isEncoding ?? true);
     const [isTextSwapped, setTextSwapped] = useState<boolean>(false);
     // Used to request API with delay
     const [typingTimeout, setTypingTimeout] = useState<any>();
@@ -70,10 +70,12 @@ export default function TranslateForm({
     }, [originalText]);
 
     useEffect(() => {
-        setIsPastedFromHistory(true);
-        setOriginalText(selected.originalText);
-        setTranslatedText(selected.translatedText);
-        setEncoding(selected?.isEncoding);
+        if (selected) {
+            setIsPastedFromHistory(true);
+            setOriginalText(selected.originalText);
+            setTranslatedText(selected.translatedText);
+            setEncoding(selected.isEncoding);
+        }
     }, [selected]);
 
     function swapModes() {
