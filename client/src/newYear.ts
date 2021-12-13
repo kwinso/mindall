@@ -5,6 +5,7 @@ export function timeToNewYear(): number {
     return newYearDate - Date.now();
 }
 
-export function isNewYear(): boolean {
-    return newYearDate - Date.now() <= 0
+export function isMidnightTime(): boolean {
+    const newYearOffset = newYearDate - Date.now();
+    return newYearOffset <= 0 && newYearOffset >= -(1000 * 60 * 10);
 }

@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Main from "./pages/main/Main";
 import Header from "./components/Header";
 import Snowfall from "react-snowfall";
-import { isNewYear, timeToNewYear } from "./newYear";
+import { isMidnightTime, timeToNewYear } from "./newYear";
 
 function App() {
     const [color, setColor] = useState("#ffe");
@@ -13,7 +13,7 @@ function App() {
     useEffect(() => {
         if (timeToNewYear() < 1000 * 60 * 30) {
             const check = setTimeout(() => {
-                if (isNewYear()) {
+                if (isMidnightTime()) {
                     setColor("#33f");
                     setSpeed(0.01);
                     setSnowflakeCount(200);

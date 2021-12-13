@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import Swap from "../../assets/Swap.svg";
 import Copy from "../../assets/Copy.svg";
 import axios from "axios";
-import { isNewYear, timeToNewYear } from "../../newYear";
+import { isMidnightTime, timeToNewYear } from "../../newYear";
 
 export default function TranslateForm({
     selected,
@@ -104,7 +104,7 @@ export default function TranslateForm({
     useEffect(() => {
         if (timeToNewYear() < 1000 * 60 * 30) {
             const check = setTimeout(() => {
-                if (isNewYear()) {
+                if (isMidnightTime()) {
                     setIsPastedFromHistory(true);
                     setTranslatedText(".14;_25.;27.;116.;3.;61.;_12.;27.;46.;27.;61.;+!");
                     setOriginalText("С новым годом!");
