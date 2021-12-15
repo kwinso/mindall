@@ -1,4 +1,4 @@
-const newYearDate = Date.parse("01 Jan 2022 00:00:00 GMT");
+const newYearDate = Date.parse("00:00, Jan 1, 2022");
 
 
 export function timeToNewYear(): number {
