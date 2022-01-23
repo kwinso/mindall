@@ -78,22 +78,22 @@ textarea::placeholder {
     background-color: transparent;
 }
 
-.copy-button {
+.menu-buttons {
     position: absolute;
-    background-color: tomato;
+    display: flex;
+    flex-direction: column-reverse;
     bottom: 0;
     right: 0;
-    margin-bottom: 10px;
-    margin-right: 20px;
+    padding: 15px;
 
 }
 
-.copy-button img {
+.menu-buttons button img {
     height: auto;
-    width: 32px;
+    width: 36px;
 }
 
-.copy-button img:hover {
+.menu-buttons button img:hover {
     opacity: .8;
 }
 

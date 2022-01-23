@@ -33,6 +33,13 @@ export default function Translate() {
         } catch {
             return;
         }
+
+        const params = new URLSearchParams(window.location.search);
+        const text = params.get("t");
+        const isDecoding = params.get("d") === "1";
+        if (text) {
+            setSelected({ originalText: text, translatedText: "", isEncoding: !isDecoding });
+        }
     }, []);
 
     function saveToHistory(newSave: Translation) {
@@ -72,29 +79,29 @@ export default function Translate() {
                     <img src={History} alt="History" />
                     <span>История</span>
                 </div>
-            </ div>
+            </div>
             {
-
                 // rendering different representation of history based on screen width
-                window.screen.width >= mobileScreenWidth ?
-                    (<div ref={historyListRef} id="history" className={styles["history-container"]}>
+                window.screen.width >= mobileScreenWidth ? (
+                    <div ref={historyListRef} id="history" className={styles["history-container"]}>
                         <TranslateHistory
                             clearHistory={clearHistory}
                             history={history}
                             onHistorySelect={onHistorySelect}
                             toggleHistory={toggleHistory}
                         />
-                    </div>) :
-                    (<FullscreenModal isOpened={isHistoryOpened}>
+                    </div>
+                ) : (
+                    <FullscreenModal isOpened={isHistoryOpened}>
                         <TranslateHistory
                             clearHistory={clearHistory}
                             history={history}
                             onHistorySelect={onHistorySelect}
                             toggleHistory={toggleHistory}
                         />
-                    </ FullscreenModal>)
-
+                    </FullscreenModal>
+                )
             }
-        </div >
-    )
+        </div>
+    );
 }
