@@ -46,7 +46,7 @@
     align-items: center;
     font-size: 25px;
     color: var(--text);
-    border-radius: 20px;
+    border-radius: 15px;
 }
 
 .history-btn img {
@@ -62,6 +62,7 @@
     .container {
         margin-top: 20px;
     }
+
     .translate-wrapper {
         width: 100%;
     }
@@ -69,13 +70,14 @@
     .history-container, .history-container.active {
         display: none;
     }
-    
+
     .history-btn {
         top: auto;
         margin-top: 25px;
         /* bottom: 25px; */
         font-size: 18px;
     }
+
     .history-btn img {
         width: 30px;
     }

@@ -14,6 +14,7 @@ header {
     align-items: center;
     font-size: 35px;
 }
+
 .logo img {
     width: 45px;
     height: 45px;
@@ -26,8 +27,9 @@ header {
     background-color: var(--bright-bg);
     border: none;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 12px;
 }
+
 .chat img {
     cursor: pointer;
     width: 25px;
@@ -40,10 +42,11 @@ header {
 @media only screen and (max-width: 900px) {
     .logo {
         padding: 5px 15px;
-        border-radius: 20px;
+        border-radius: 15px;
         background-color: var(--bright-bg);
         font-size: 25px;
     }
+
     .logo img {
         width: 30px;
         height: 30px;

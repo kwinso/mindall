@@ -13,7 +13,7 @@
     max-width: 900px;
     height: 55px;
     background-color: var(--bright-bg);
-    border-radius: 20px;
+    border-radius: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,9 +22,6 @@
     margin-bottom: 25px;
 }
 
-.mode-swapper span {
-    padding-left: 10px;
-}
 
 .mode-swapper img {
     position: absolute;
@@ -66,13 +63,13 @@ textarea::placeholder {
 }
 
 .input {
-    border-radius: 20px 0 0 20px;
+    border-radius: 15px 0 0 15px;
 }
 
 .output {
     cursor: text;
     opacity: 0.6;
-    border-radius: 0 20px 20px 0;
+    border-radius: 0 15px 15px 0;
 }
 
 .results button {
@@ -80,15 +77,17 @@ textarea::placeholder {
     outline: none;
     background-color: transparent;
 }
+
 .copy-button {
     position: absolute;
-    background-color:tomato;
+    background-color: tomato;
     bottom: 0;
     right: 0;
     margin-bottom: 10px;
     margin-right: 20px;
 
 }
+
 .copy-button img {
     height: auto;
     width: 32px;
@@ -102,6 +101,7 @@ textarea::placeholder {
     .mode-swapper img:hover {
         opacity: 0.6;
     }
+
     .history:hover {
         background-color: var(--bright-bg);
     }
@@ -112,22 +112,27 @@ textarea::placeholder {
         margin-top: 30px;
         width: 90%;
     }
+
     .mode-swapper {
         width: 90%;
     }
+
     .results {
         flex-direction: column;
         align-items: center;
         width: 90%;
         margin: auto;
     }
+
     .results textarea {
         width: 100%;
     }
+
     .input {
-        border-radius: 20px 20px 0 0;
+        border-radius: 15px 15px 0 0;
     }
+
     .output {
-        border-radius: 0 0 20px 20px;
+        border-radius: 0 0 15px 15px;
     }
 }
