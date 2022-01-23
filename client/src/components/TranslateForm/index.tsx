@@ -97,7 +97,7 @@ export default function TranslateForm({
 
     function copyShared() {
         const text = encodeURIComponent(originalText);
-        const shareUrl = `https://mindall.herokuapp.com/?t=${text}&d=${isEncoding ? 0 : 1}`;
+        const shareUrl = `https://mindall.herokuapp.com/?t=${text}&d=${Number(!isEncoding)}`;
         copyText(shareUrl, "Ссылка скопирована в буффер обмена");
     }
 
