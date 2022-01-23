@@ -1,6 +1,5 @@
 const newYearDate = Date.parse("00:00, Jan 1, 2022");
 
-
 export function timeToNewYear(): number {
     return newYearDate - Date.now();
 }
