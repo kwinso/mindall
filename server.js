@@ -9,8 +9,10 @@ const path = require("path");
 const io = require("socket.io")(httpServer);
 const errorsMiddleware = require("./middlewares/errors");
 const cipherRoute = require("./routes/cipher");
+const shareRoute = require("./routes/share");
 const { addUser, removeUser, getUser, getUserByName, getAllUsers } = require("./chatUsers");
 const { encode } = require("./functions/cipher");
+const db = require("./db");
 
 //#region PUBLIC FOLDER SETUP
 app.set('views', path.join(__dirname, './views'));
@@ -28,11 +30,12 @@ app.use(express.json());
 
 //#region ROUTING CONFIGURATION
 app.use("/cipher", cipherRoute);
+app.use("/share", shareRoute);
 //#endregion
 
 // Redirect any unmatched path to web page
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 // * ERROR HANDLER
@@ -57,7 +60,7 @@ io.on("connection", socket => {
         io.emit("join:new", user.name);
         socket.emit("users:typing", typingUsers);
         const greeting = `Привет, ${user.name}!`;
-        io.emit("message:new", { username: "Mindall Chat", text: greeting});
+        io.emit("message:new", { username: "Mindall Chat", text: greeting });
     });
 
     socket.on("users:request", () => {
@@ -88,7 +91,7 @@ io.on("connection", socket => {
         io.emit("users:typing", typingUsers);
     });
     //#endregion
-   
+
 
     socket.on('disconnect', () => {
         const removedUser = removeUser(socket.id);
@@ -103,6 +106,7 @@ io.on("connection", socket => {
 });
 
 // * SERVER STARTUP
-httpServer.listen(process.env.PORT, process.env.HOST,  () => {
+httpServer.listen(process.env.PORT, process.env.HOST, async () => {
+    await db.connect();
     console.log(`Mindall App started on http://${process.env.HOST}:${process.env.PORT}`);
 });

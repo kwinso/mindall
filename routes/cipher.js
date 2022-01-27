@@ -3,7 +3,7 @@ const { encode, decode } = require("../functions/cipher");
 const { HttpError } = require("../httpError");
 const router = Router();
 
-router.post("/encode", (req, res, next) => {
+router.post("/encode", (req, res) => {
     if (!req.body?.original) {
         throw new HttpError("Сообщение для кодировки не указано.", 400);
     }

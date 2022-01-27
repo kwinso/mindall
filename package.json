@@ -11,12 +11,16 @@
   "author": "undermxuse",
   "license": "ISC",
   "dependencies": {
+    "async-middleware": "^1.2.1",
+    "awesome-qr": "^2.1.5-rc.0",
     "cors": "^2.8.5",
     "dotenv": "*",
     "express": "*",
+    "mongoose": "^6.1.8",
     "nodemon": "*",
     "pug": "*",
     "socket.io": "*",
+    "uniqid": "^5.4.0",
     "xss": "*"
   }
 }

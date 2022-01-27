@@ -1,4 +1,4 @@
-module.exports = function (error, _, res, next) {
+module.exports = async function (error, _, res, next) {
     if (process.env.NODE_ENV != "prod") {
         console.log(error.stack);
     }
@@ -10,6 +10,6 @@ module.exports = function (error, _, res, next) {
 
     res.status(status).json({
         error: true,
-        message: status == 500 ? "Ошибка сервера" : error.message,
+        message: status == 500 ? "Ошибка сервера." : error.message,
     });
 }
