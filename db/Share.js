@@ -14,7 +14,7 @@ const ShareSchema = new Schema({
         required: true,
         unique: true
     },
-    createdAt: { type: Date, expires: '5m', default: Date.now }
+    createdAt: { type: Date, expires: '7d', default: Date.now }
 });
 
 module.exports = model("Share", ShareSchema);
