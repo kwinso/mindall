@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import FullscreenModal from "../FullscreenModal";
+import Modal from "../Modal";
 import TranslateForm from "../TranslateForm";
-import History from "../../assets/History.svg";
+import HistoryIcon from "@mui/icons-material/History";
+import ShareIcon from "@mui/icons-material/Share";
+import Share from "../../components/Share";
 import styles from "./styles.module.css";
 import TranslateHistory from "../TranslateHistory";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -10,6 +12,8 @@ const mobileScreenWidth = 900;
 
 export default function Translate() {
     const [isHistoryOpened, setHistoryOpened] = useState<boolean>(false);
+    const [isShareModalOpened, setShareOpened] = useState<boolean>(false);
+    const [shareInfo, setShareInfo] = useState<{ originalText: string; isEncoding: boolean } | null>(null);
     // Selected value from history. By default is empty
     const [selected, setSelected] = useState<Translation>({ originalText: "", translatedText: "", isEncoding: true });
     const [history, setHistory] = useState<Translation[]>([]);
@@ -17,10 +21,7 @@ export default function Translate() {
 
     function onHistorySelect(selected: Translation) {
         setSelected(selected);
-        // If item was selected with mobile fullscreen modal, modal should be closed
-        if (window.screen.width <= mobileScreenWidth) {
-            setHistoryOpened(false);
-        }
+        setHistoryOpened(false);
     }
 
     useEffect(() => {
@@ -74,34 +75,24 @@ export default function Translate() {
     return (
         <div className={styles.container}>
             <div className={styles["translate-wrapper"]}>
-                <TranslateForm selected={selected} save={saveToHistory} />
-                <div title="Открыть Историю (Shift + H)" className={styles["history-btn"]} onClick={toggleHistory}>
-                    <img src={History} alt="History" />
-                    <span>История</span>
+                <TranslateForm selected={selected} save={saveToHistory} onShareUpdate={setShareInfo} />
+                <div className={styles.menu}>
+                    <div title="Открыть Историю (Shift + H)" className={styles["menu-btn"]} onClick={toggleHistory}>
+                        <HistoryIcon />
+                        <span>История</span>
+                    </div>
+                    <button disabled={!shareInfo} title="Поделиться" className={styles["menu-btn"]} onClick={() => setShareOpened(true)}>
+                        <ShareIcon />
+                        <span>Поделиться</span>
+                    </button>
                 </div>
             </div>
-            {
-                // rendering different representation of history based on screen width
-                window.screen.width >= mobileScreenWidth ? (
-                    <div ref={historyListRef} id="history" className={styles["history-container"]}>
-                        <TranslateHistory
-                            clearHistory={clearHistory}
-                            history={history}
-                            onHistorySelect={onHistorySelect}
-                            toggleHistory={toggleHistory}
-                        />
-                    </div>
-                ) : (
-                    <FullscreenModal isOpened={isHistoryOpened}>
-                        <TranslateHistory
-                            clearHistory={clearHistory}
-                            history={history}
-                            onHistorySelect={onHistorySelect}
-                            toggleHistory={toggleHistory}
-                        />
-                    </FullscreenModal>
-                )
-            }
+            <Modal isOpened={isHistoryOpened} onClose={() => setHistoryOpened(false)} title="История">
+                <TranslateHistory clearHistory={clearHistory} history={history} onHistorySelect={onHistorySelect} />
+            </Modal>
+            <Modal isOpened={isShareModalOpened} onClose={() => setShareOpened(false)} title="Поделиться">
+                {shareInfo && <Share info={shareInfo} />}
+            </Modal>
         </div>
     );
 }

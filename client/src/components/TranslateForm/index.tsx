@@ -1,31 +1,65 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import Swap from "../../assets/Swap.svg";
-import Copy from "../../assets/Copy.svg";
-import Share from "../../assets/Share.svg";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
+import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 
-function copyText(t: string, msg: string) {
-    navigator.clipboard.writeText(t);
-    alert(msg);
+import { useAlert } from "react-alert";
+import { useParams } from "react-router-dom";
+
+function copyText(t: string) {
+    try {
+        navigator.clipboard.writeText(t);
+    } catch {
+        const el = document.createElement("textarea");
+        el.value = t;
+        el.setAttribute("readonly", "");
+        el.style.position = "absolute";
+        el.style.left = "-9999px";
+        document.body.appendChild(el);
+        el.select();
+        el.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        document.body.removeChild(el);
+    }
 }
 
 export default function TranslateForm({
     selected,
     save: saveToLocalStorage,
+    onShareUpdate,
 }: {
     selected: Translation;
-    save: (arg1: Translation) => void;
+    save: (arg1: Translation) => any;
+    onShareUpdate: (update: { originalText: string; isEncoding: boolean } | null) => any;
 }) {
+    const alert = useAlert();
+    const params = useParams<{ id: string }>();
     const [originalText, setOriginalText] = useState<string>(selected.originalText);
     const [translatedText, setTranslatedText] = useState<string>(selected.translatedText);
     // Should we encode or decode?
     const [isEncoding, setEncoding] = useState<boolean>(selected.isEncoding);
-    const [isTextSwapped, setTextSwapped] = useState<boolean>(false);
     // Used to request API with delay
     const [typingTimeout, setTypingTimeout] = useState<any>();
     // Used to prevent requesting already known value from history
     const [isPastedFromHistory, setIsPastedFromHistory] = useState<boolean>(false);
+
+    async function getShare() {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN}/share/${params.id}`).catch((e) => {
+            alert.error(e.response.data.message);
+        });
+        if (res) {
+            setOriginalText(res.data.originalText);
+            setEncoding(res.data.isEncoding);
+        }
+    }
+
+    useEffect(() => {
+        if (params.id) {
+            getShare();
+        }
+    }, []);
 
     useEffect(() => {
         const from = document.querySelector("textarea#from") as HTMLTextAreaElement;
@@ -39,7 +73,7 @@ export default function TranslateForm({
     useEffect(() => {
         // Should request only if new text was passed to the input
         // (Means excluding something pasted from history (exception: translated text is empty) or just swapped already encoded value)
-        if (originalText && !isTextSwapped && (!isPastedFromHistory || !translatedText)) {
+        if (originalText && (!isPastedFromHistory || !translatedText)) {
             // Timeout is used to give user some time to end the phrase
             if (typingTimeout) clearTimeout(typingTimeout);
             setTypingTimeout(
@@ -48,7 +82,6 @@ export default function TranslateForm({
                         const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN}/cipher/${isEncoding ? "encode" : "decode"}`, {
                             original: originalText,
                         });
-
                         setTranslatedText(data.result);
 
                         saveToLocalStorage({
@@ -59,53 +92,66 @@ export default function TranslateForm({
                     } catch (e: any) {
                         // @ts-ignore
                         if (e?.response?.data?.error) {
-                            setTranslatedText(e.response.data.message);
+                            alert.error("Неверный код.");
+                            onShareUpdate(null);
                         }
                     }
                 }, 1000)
             );
+        } else {
+            // Clear translated text if original text is none
+            if (translatedText && !isPastedFromHistory) setTranslatedText("");
+            clearTimeout(typingTimeout);
         }
 
-        // Clear translated text if original text is none
-        if (!originalText && translatedText) setTranslatedText("");
         // After we checked current original text update, we can drop all indicators for text
         // So we know that the next text change will be ok to translate
-        setTextSwapped(false);
         setIsPastedFromHistory(false);
-    }, [originalText]);
+    }, [originalText, isEncoding]);
+
+    useEffect(() => {
+        onShareUpdate(translatedText ? { originalText, isEncoding } : null);
+    }, [translatedText]);
 
     useEffect(() => {
         setIsPastedFromHistory(true);
+        setEncoding(selected?.isEncoding);
         setOriginalText(selected.originalText);
         setTranslatedText(selected.translatedText);
-        setEncoding(selected?.isEncoding);
     }, [selected]);
 
     function swapModes() {
-        if (translatedText) {
+        if (translatedText && originalText) {
             const original = originalText;
-            setOriginalText(translatedText === "Неверный код." ? "" : translatedText);
+            setOriginalText(translatedText);
             setTranslatedText(original);
-            setTextSwapped(true);
         }
         setEncoding(!isEncoding);
     }
 
     function copyTranslated() {
-        copyText(translatedText, "Текст скопирован в буфер обмена.");
+        if (translatedText) {
+            copyText(translatedText);
+            alert.show("Текст скопирован в буфер обмена.");
+        }
     }
 
     function copyShared() {
         const text = encodeURIComponent(originalText);
         const shareUrl = `https://mindall.herokuapp.com/?t=${text}&d=${Number(!isEncoding)}`;
-        copyText(shareUrl, "Ссылка скопирована в буффер обмена");
+        copyText(shareUrl);
+        alert.show("Ссылка скопирована в буффер обмена");
+    }
+
+    function clearFields() {
+        setOriginalText("");
     }
 
     return (
         <div className={styles["translate-form"]}>
             <div className={styles["mode-swapper"]}>
                 <span>{isEncoding ? "Текст" : "Код"}</span>
-                <img title="Развернуть текст (Shift + S)" src={Swap} alt="Swap" onClick={swapModes} />
+                <SwapHorizIcon onClick={swapModes} />
                 <span>{isEncoding ? "Код" : "Текст"}</span>
             </div>
 
@@ -129,12 +175,8 @@ export default function TranslateForm({
                     value={translatedText}
                 ></textarea>
                 <div className={styles["menu-buttons"]}>
-                    <button onClick={copyTranslated} className={styles["copy-button"]}>
-                        <img src={Copy} alt="Copy" />
-                    </button>
-                    <button onClick={copyShared} className={styles["copy-button"]}>
-                        <img src={Share} alt="Share" />
-                    </button>
+                    <ClearIcon onClick={clearFields} />
+                    <ContentPasteIcon onClick={copyTranslated} />
                 </div>
             </div>
         </div>

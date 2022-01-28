@@ -22,7 +22,7 @@ router.get("/:id", wrap(async (req, res) => {
 router.post("/", async (req, res) => {
     const { originalText, isEncoding } = req.body;
 
-    if (!originalText || !isEncoding) {
+    if (!originalText || typeof(isEncoding) != "boolean") {
         throw new HttpError("Неправильные параметры для создания записи.", 400);
     }
     if (originalText.length > 1000) {

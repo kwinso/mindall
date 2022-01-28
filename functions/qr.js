@@ -12,6 +12,8 @@ async function createShareQR(id) {
         logoImage: logo,
     }).draw();
 
+    fs.writeFileSync("./qr.png", buffer);
+
     return buffer.toString("base64");
 }
 

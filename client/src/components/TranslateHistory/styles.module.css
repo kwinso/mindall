@@ -23,7 +23,6 @@
 
 .history-menu {
     padding: 20px 15px;
-    height: 15%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -40,6 +39,7 @@
     opacity: 0.6;
 }
 
-.menu-btn img {
-    width: 37px;
+.menu-btn svg {
+    fill: var(--accent);
+    font-size: 37px;
 }

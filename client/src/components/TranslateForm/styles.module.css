@@ -23,10 +23,11 @@
 }
 
 
-.mode-swapper img {
+.mode-swapper svg {
     position: absolute;
+    fill: var(--accent);
     cursor: pointer;
-    height: 35px;
+    font-size: 35px;
     margin-left: auto;
     margin-right: auto;
     left: 0;
@@ -81,27 +82,26 @@ textarea::placeholder {
 .menu-buttons {
     position: absolute;
     display: flex;
-    flex-direction: column-reverse;
-    bottom: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    /* bottom: 0; */
+    height: 100%;
     right: 0;
     padding: 15px;
 
 }
 
-.menu-buttons button img {
-    height: auto;
-    width: 36px;
+.menu-buttons svg {
+    cursor: pointer;
+    font-size: 35px;
+    fill: var(--accent);
 }
 
-.menu-buttons button img:hover {
+.menu-buttons svg:hover {
     opacity: .8;
 }
 
 @media only screen and (min-width: 900px) {
-    .mode-swapper img:hover {
-        opacity: 0.6;
-    }
-
     .history:hover {
         background-color: var(--bright-bg);
     }
