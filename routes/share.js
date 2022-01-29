@@ -14,8 +14,8 @@ router.get("/:id", wrap(async (req, res) => {
     if (id == "ad") {
         const citate = getRandomCitate();
         return res.status(200).json({
-            originalText: citate,
-            isEncoding: true
+            input: citate,
+            encodeMode: true
         });
     }
 
@@ -24,27 +24,27 @@ router.get("/:id", wrap(async (req, res) => {
     if (!share) throw new HttpError("Ссылка не найдена. Возможно, она уже удалена.", 404);
 
     res.status(200).json({
-        originalText: share.originalText,
-        isEncoding: share.isEncoding
+        input: share.input,
+        encodeMode: share.encodeMode
     })
 
 }));
 
 router.post("/", async (req, res) => {
-    const { originalText, isEncoding } = req.body;
+    const { input, encodeMode } = req.body;
 
-    if (!originalText || typeof (isEncoding) != "boolean") {
+    if (!input || typeof (encodeMode) != "boolean") {
         throw new HttpError("Неправильные параметры для создания записи.", 400);
     }
-    if (originalText.length > 1000) {
+    if (input.length > 1000) {
         throw new HttpError("Текст слишком большой", 400);
     }
 
     const id = uniqid();
 
     const share = new db.Share({
-        originalText,
-        isEncoding,
+        input,
+        encodeMode,
         id,
     });
 

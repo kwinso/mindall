@@ -31,6 +31,7 @@ export default function TranslateForm({
     // Used to prevent requesting already known value from history
     const [isPastedFromHistory, setIsPastedFromHistory] = useState<boolean>(false);
 
+    // Check if user is on the link for share, so check if that share exists
     useEffect(() => {
         async function getShare() {
             const res = await axios.get(`${process.env.REACT_APP_DOMAIN}/share/${params.id}`).catch((e) => {

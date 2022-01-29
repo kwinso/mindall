@@ -20,7 +20,6 @@ app.set('view engine', 'pug');
 app.set('view options', { basedir: __dirname });
 app.locals.basedir = path.join(__dirname, './views');
 // Using new version for app
-app.use(express.static(path.join(__dirname, "client/build")));
 app.use(cors({ origin: "*" }));
 //#endregion
 

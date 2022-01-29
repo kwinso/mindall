@@ -1,11 +1,11 @@
 const { Schema, model } = require("mongoose");
 
 const ShareSchema = new Schema({
-    originalText: {
+    input: {
         type: String,
         required: true
     },
-    isEncoding: {
+    encodeMode: {
         type: Boolean,
         required: true,
     },
