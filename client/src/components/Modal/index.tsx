@@ -1,6 +1,6 @@
 import React, { ReactChild, useEffect } from "react";
-import styles from "./styles.module.css";
 import CloseIcon from "@mui/icons-material/Close";
+import styles from "./styles.module.sass";
 
 interface Props {
     isOpened: boolean;
@@ -16,7 +16,7 @@ export default function FullscreenModal({ isOpened, children, onClose, title }: 
     }, [isOpened]);
 
     return isOpened ? (
-        <div className={styles.backdrop}>
+        <div id="backdrop" className={`${styles.backdrop}`}>
             <div className={styles.modal}>
                 <div className={styles.header}>
                     <CloseIcon onClick={onClose} />

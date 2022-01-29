@@ -4,7 +4,7 @@ import TranslateForm from "../TranslateForm";
 import HistoryIcon from "@mui/icons-material/History";
 import ShareIcon from "@mui/icons-material/Share";
 import Share from "../../components/Share";
-import styles from "./styles.module.css";
+import styles from "./styles.module.sass";
 import TranslateHistory from "../TranslateHistory";
 import { useHotkeys } from "react-hotkeys-hook";
 

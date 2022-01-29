@@ -1,6 +1,6 @@
 import React from "react";
 import HistoryList from "../HistoryList";
-import styles from "./styles.module.css";
+import styles from "./styles.module.sass";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 interface Props {

@@ -1,0 +1,119 @@
+.translate-form
+    display: flex
+    justify-content: center
+    flex-direction: column
+    align-items: center
+    margin: 0 auto
+
+.mode-swapper
+    position: relative
+    box-sizing: border-box
+    width: 90%
+    max-width: 900px
+    height: 55px
+    background-color: var(--bright-bg)
+    border-radius: 15px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 0px 20px
+    font-size: 25px
+    margin-bottom: 25px
+
+
+    & svg
+        position: absolute
+        fill: var(--accent)
+        cursor: pointer
+        font-size: 35px
+        margin-left: auto
+        margin-right: auto
+        left: 0
+        right: 0
+
+.results
+    position: relative
+    max-width: 900px
+    display: flex
+    width: 90%
+
+textarea
+    box-sizing: border-box
+    height: 200px
+    width: 50%
+    resize: none
+    outline: none
+    font-size: 25px
+    padding: 0 20px
+    background-color: var(--bright-bg)
+    border: none
+    color: var(--text)
+    border-top: 20px solid var(--bright-bg)
+    border-bottom: 20px solid var(--bright-bg)
+    scrollbar-color: var(--bright-bg)
+    scrollbar-track-color: #fff8dc
+
+textarea::placeholder
+    font-family: "Roboto", sans-serif
+    color: var(--placeholder)
+
+.input
+    border-radius: 15px 0 0 15px
+
+.output
+    cursor: text
+    opacity: 0.6
+    border-radius: 0 15px 15px 0
+
+.results button
+    border: none
+    outline: none
+    background-color: transparent
+
+.menu-buttons
+    position: absolute
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    /* bottom: 0; */
+    height: 100%
+    right: 0
+    padding: 15px
+
+
+    & svg
+        cursor: pointer
+        font-size: 35px
+        fill: var(--accent)
+
+
+    & svg:hover
+        opacity: .8
+
+@media only screen and (min-width: 900px)
+    .history:hover
+        background-color: var(--bright-bg)
+
+@media only screen and (max-width: 900px)
+    .translate-form
+        margin-top: 30px
+        width: 90%
+
+    .mode-swapper
+        width: 90%
+
+    .results
+        flex-direction: column
+        align-items: center
+        width: 90%
+        margin: auto
+
+
+    & textarea
+        width: 100%
+
+    .input
+        border-radius: 15px 15px 0 0
+
+    .output
+        border-radius: 0 0 15px 15px

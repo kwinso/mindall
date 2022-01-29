@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.sass";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -7,23 +7,7 @@ import axios from "axios";
 
 import { useAlert } from "react-alert";
 import { useParams } from "react-router-dom";
-
-function copyText(t: string) {
-    try {
-        navigator.clipboard.writeText(t);
-    } catch {
-        const el = document.createElement("textarea");
-        el.value = t;
-        el.setAttribute("readonly", "");
-        el.style.position = "absolute";
-        el.style.left = "-9999px";
-        document.body.appendChild(el);
-        el.select();
-        el.setSelectionRange(0, 99999);
-        document.execCommand("copy");
-        document.body.removeChild(el);
-    }
-}
+import { copyText } from "../../utils";
 
 export default function TranslateForm({
     selected,
@@ -90,11 +74,13 @@ export default function TranslateForm({
                             isEncoding,
                         });
                     } catch (e: any) {
-                        // @ts-ignore
-                        if (e?.response?.data?.error) {
-                            alert.error("Неверный код.");
+                        const res = e?.response?.data;
+                        let msg = "Не удалось связаться с сервером.";
+                        if (res && res.error && res.message) {
+                            msg = res.message;
                             onShareUpdate(null);
                         }
+                        alert.error(msg);
                     }
                 }, 1000)
             );
@@ -134,13 +120,6 @@ export default function TranslateForm({
             copyText(translatedText);
             alert.show("Текст скопирован в буфер обмена.");
         }
-    }
-
-    function copyShared() {
-        const text = encodeURIComponent(originalText);
-        const shareUrl = `https://mindall.herokuapp.com/?t=${text}&d=${Number(!isEncoding)}`;
-        copyText(shareUrl);
-        alert.show("Ссылка скопирована в буффер обмена");
     }
 
     function clearFields() {

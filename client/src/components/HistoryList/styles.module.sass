@@ -1,0 +1,50 @@
+.list
+    margin: auto
+    margin-right: 0
+    height: 70%
+    padding: 0
+    width: 100%
+    padding: 10px 25px
+    box-sizing: border-box
+    overflow-y: auto
+    scrollbar-color: var(--accent) var(--background)
+    scrollbar-width: thin
+    overflow-x: hidden
+
+    &::-webkit-scrollbar
+        width: 3px
+        background-color: var(--background)
+
+    &::-webkit-scrollbar-thumb
+        cursor: pointer
+        border-radius: 12px
+        background-color: var(--accent)
+
+    & div
+        user-select: none
+        cursor: pointer
+        margin: auto
+        border-bottom: 1px solid var(--placeholder)
+        margin-bottom: 10px
+
+    & div:last-child
+        border: 0px
+
+    & div:hover
+        opacity: 0.5
+
+    & div span
+        padding: 0 5px
+
+.original
+    color: var(--text)
+    font-size: 30px
+
+.translated
+    text-overflow: ellipsis
+    font-size: 20px
+    color: var(--placeholder)
+
+.empty
+    font-size: 30px
+    color: var(--placeholder)

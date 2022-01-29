@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.sass";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
