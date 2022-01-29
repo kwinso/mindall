@@ -53,7 +53,7 @@ export default function TranslateForm({
         if (params.id) {
             getShare();
         }
-    });
+    }, []);
 
     function swapModes() {
         setEncodeMode(!encodeMode);
