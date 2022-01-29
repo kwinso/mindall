@@ -4,7 +4,7 @@ const path = require('path');
 
 // ...
 
-const logo = fs.readFileSync(path.join(__dirname, "../assets/Logo.png"));
+const logo = fs.readFileSync(path.join(__dirname, "../assets/logo.png"));
 
 async function createShareQR(id) {
     const buffer = await new AwesomeQR({
