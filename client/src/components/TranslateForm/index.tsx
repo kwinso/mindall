@@ -1,5 +1,5 @@
 // Код хуйня, переделывай
-
+// Теперь чуть получше)
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.sass";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
@@ -12,76 +12,81 @@ import { useParams } from "react-router-dom";
 import { copyText } from "../../utils";
 
 export default function TranslateForm({
-    selected,
-    save: saveToLocalStorage,
+    pastedValue,
+    onNewTranslation,
     onShareUpdate,
 }: {
-    selected: Translation;
-    save: (arg1: Translation) => any;
-    onShareUpdate: (update: { originalText: string; isEncoding: boolean } | null) => any;
+    pastedValue: Translation;
+    onNewTranslation: (arg1: Translation) => any;
+    onShareUpdate: (update: { input: string; encodeMode: boolean } | null) => any;
 }) {
     const alert = useAlert();
     const params = useParams<{ id: string }>();
-    const [originalText, setOriginalText] = useState<string>(selected.originalText);
-    const [translatedText, setTranslatedText] = useState<string>(selected.translatedText);
+    const [input, setInput] = useState<string>(pastedValue.input);
+    const [output, setOutput] = useState<string>(pastedValue.output);
     // Should we encode or decode?
-    const [isEncoding, setEncoding] = useState<boolean>(selected.isEncoding);
-    // Used to request API with delay
+    const [encodeMode, setEncodeMode] = useState<boolean>(pastedValue.decodeMode);
+    // Used to wait until user stops typing
     const [typingTimeout, setTypingTimeout] = useState<any>();
     // Used to prevent requesting already known value from history
     const [isPastedFromHistory, setIsPastedFromHistory] = useState<boolean>(false);
 
-    async function getShare() {
-        const res = await axios.get(`${process.env.REACT_APP_DOMAIN}/share/${params.id}`).catch((e) => {
-            let msg = e?.response?.data?.message ?? "Ошибка на сервере.";
-            alert.error(msg);
-        });
-        if (res) {
-            setOriginalText(res.data.originalText);
-            setEncoding(res.data.isEncoding);
+    useEffect(() => {
+        async function getShare() {
+            const res = await axios.get(`${process.env.REACT_APP_DOMAIN}/share/${params.id}`).catch((e) => {
+                let msg = e?.response?.data?.message ?? "Ошибка на сервере.";
+                alert.error(msg);
+            });
+            if (res) {
+                setInput(res.data.input);
+                setEncodeMode(res.data.encodeMode);
 
-            if (params.id === "ad") {
-                if (localStorage.getItem("seenAdvHint") !== "1") {
-                    alert.info("Обновите страницу, чтобы получить новую цитату.");
-                    localStorage.setItem("seenAdvHint", "1");
+                if (params.id === "ad") {
+                    if (localStorage.getItem("seenAdvHint") !== "1") {
+                        alert.info("Обновите страницу, чтобы получить новую цитату.");
+                        localStorage.setItem("seenAdvHint", "1");
+                    }
                 }
             }
+        }
+        if (params.id) {
+            getShare();
+        }
+    });
+
+    function swapModes() {
+        setEncodeMode(!encodeMode);
+
+        if (output && input) {
+            const original = input;
+            setInput(output);
+            setOutput(original);
+            return;
         }
     }
 
     useEffect(() => {
-        if (params.id) {
-            getShare();
-        }
-    }, []);
+        onShareUpdate(output ? { input, encodeMode } : null);
+    }, [output]);
 
-    useEffect(() => {
-        const from = document.querySelector("textarea#from") as HTMLTextAreaElement;
-        const to = document.querySelector("textarea#to") as HTMLTextAreaElement;
-
-        from.placeholder = isEncoding ? "Текст..." : "Код...";
-        to.placeholder = isEncoding ? "Код..." : "Текст...";
-    }, [isEncoding]);
-
-    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         // Should request only if new text was passed to the input
         // (Means excluding something pasted from history (exception: translated text is empty) or just swapped already encoded value)
-        if (originalText && (!isPastedFromHistory || !translatedText)) {
+        if (input && (!isPastedFromHistory || !output)) {
             // Timeout is used to give user some time to end the phrase
             if (typingTimeout) clearTimeout(typingTimeout);
             setTypingTimeout(
                 setTimeout(async () => {
                     try {
-                        const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN}/cipher/${isEncoding ? "encode" : "decode"}`, {
-                            original: originalText,
+                        const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN}/cipher/${encodeMode ? "encode" : "decode"}`, {
+                            original: input,
                         });
-                        setTranslatedText(data.result);
+                        setOutput(data.result);
 
-                        saveToLocalStorage({
-                            translatedText: data.result,
-                            originalText,
-                            isEncoding,
+                        onNewTranslation({
+                            output: data.result,
+                            input: input,
+                            decodeMode: encodeMode,
                         });
                     } catch (e: any) {
                         let msg = e?.response?.data?.message ?? "Ошибка на сервере.";
@@ -91,52 +96,40 @@ export default function TranslateForm({
             );
         } else {
             // Clear translated text if original text is none
-            if (translatedText && !isPastedFromHistory) setTranslatedText("");
+            if (output && !isPastedFromHistory) setOutput("");
             clearTimeout(typingTimeout);
         }
 
         // After we checked current original text update, we can drop all indicators for text
         // So we know that the next text change will be ok to translate
         setIsPastedFromHistory(false);
-    }, [originalText, isEncoding]);
+    }, [input, encodeMode]);
 
+    // Handle pasting from the history
     useEffect(() => {
-        onShareUpdate(translatedText ? { originalText, isEncoding } : null);
-    }, [translatedText]);
-
-    useEffect(() => {
-        setIsPastedFromHistory(true);
-        setEncoding(selected?.isEncoding);
-        setOriginalText(selected.originalText);
-        setTranslatedText(selected.translatedText);
-    }, [selected]);
-
-    function swapModes() {
-        if (translatedText && originalText) {
-            const original = originalText;
-            setOriginalText(translatedText);
-            setTranslatedText(original);
-        }
-        setEncoding(!isEncoding);
-    }
+        setEncodeMode(pastedValue?.decodeMode);
+        setInput(pastedValue.input);
+        setOutput(pastedValue.output);
+    }, [pastedValue]);
 
     function copyTranslated() {
-        if (translatedText) {
-            copyText(translatedText);
+        if (output) {
+            copyText(output);
             alert.show("Текст скопирован в буфер обмена.");
         }
     }
 
     function clearFields() {
-        setOriginalText("");
+        setInput("");
+        setOutput("");
     }
 
     return (
         <div className={styles["translate-form"]}>
             <div className={styles["mode-swapper"]}>
-                <span>{isEncoding ? "Текст" : "Код"}</span>
+                <span>{encodeMode ? "Текст" : "Код"}</span>
                 <SwapHorizIcon onClick={swapModes} />
-                <span>{isEncoding ? "Код" : "Текст"}</span>
+                <span>{encodeMode ? "Код" : "Текст"}</span>
             </div>
 
             <div className={styles.results}>
@@ -145,9 +138,9 @@ export default function TranslateForm({
                     className={styles.input}
                     cols={40}
                     rows={10}
-                    placeholder="Текст..."
-                    value={originalText}
-                    onChange={(e) => setOriginalText(e.target.value)}
+                    placeholder={`${encodeMode ? "Текст..." : "Код"}`}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
                 ></textarea>
                 <textarea
                     id="to"
@@ -155,8 +148,8 @@ export default function TranslateForm({
                     cols={40}
                     rows={10}
                     readOnly
-                    placeholder="Код..."
-                    value={translatedText}
+                    placeholder={`${encodeMode ? "Код" : "Текст..."}`}
+                    value={output}
                 ></textarea>
                 <div className={styles["menu-buttons"]}>
                     <ClearIcon onClick={clearFields} />

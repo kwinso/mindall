@@ -1,7 +1,7 @@
 /// <reference types="react-scripts" />
 
 interface Translation {
-    originalText: string,
-    translatedText: string,
-    isEncoding: boolean,
+    input: string,
+    output: string,
+    decodeMode: boolean,
 }

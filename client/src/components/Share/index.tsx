@@ -9,8 +9,8 @@ import { useAlert } from "react-alert";
 
 interface Props {
     info: {
-        originalText: string;
-        isEncoding: boolean;
+        input: string;
+        encodeMode: boolean;
     };
 }
 
@@ -29,23 +29,20 @@ export default function Share({ info }: Props) {
 
     async function createShare() {
         try {
-            // return setError(true);
             const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN}/share`, info);
 
             setShare(data);
         } catch (e: any) {
-            if (e?.response?.data?.error) {
-                alert.error("Не удалось создать ссылку: " + e?.repsonse?.data?.message);
-                setError(true);
-            }
+            alert.error("Не удалось создать ссылку: " + e?.repsonse?.data?.message ?? "Ошибка на сервере.");
+            setError(true);
         }
     }
 
     useEffect(() => {
         setError(false);
-        if (lastShareText !== info.originalText) {
+        if (lastShareText !== info.input) {
             createShare();
-            lastShareText = info.originalText;
+            lastShareText = info.input;
         } else {
             setShare(lastShare);
         }
@@ -85,15 +82,6 @@ export default function Share({ info }: Props) {
                 <img className={styles["qr-image"]} src={`data:image/png;base64,${share.qr}`} alt="QR" />
                 <span>Скачать QR</span>
             </div>
-
-            {/* <div className={styles["image-container"]}>
-                <img src={require("../../assets/qr.png").default} alt="QR" />
-                <button>Скачать QR</button>
-            </div>
-            <div>
-                <input placeholder="Здесь будет ссылка..." />
-            </div>
-            <button>Сгенерировать ссылку</button> */}
         </div>
     );
 }

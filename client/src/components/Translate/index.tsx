@@ -13,9 +13,9 @@ const mobileScreenWidth = 900;
 export default function Translate() {
     const [isHistoryOpened, setHistoryOpened] = useState<boolean>(false);
     const [isShareModalOpened, setShareOpened] = useState<boolean>(false);
-    const [shareInfo, setShareInfo] = useState<{ originalText: string; isEncoding: boolean } | null>(null);
+    const [shareInfo, setShareInfo] = useState<{ input: string; encodeMode: boolean } | null>(null);
     // Selected value from history. By default is empty
-    const [selected, setSelected] = useState<Translation>({ originalText: "", translatedText: "", isEncoding: true });
+    const [selected, setSelected] = useState<Translation>({ input: "", output: "", decodeMode: true });
     const [history, setHistory] = useState<Translation[]>([]);
     const historyListRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +39,7 @@ export default function Translate() {
         const text = params.get("t");
         const isDecoding = params.get("d") === "1";
         if (text) {
-            setSelected({ originalText: text, translatedText: "", isEncoding: !isDecoding });
+            setSelected({ input: text, output: "", decodeMode: !isDecoding });
         }
     }, []);
 
@@ -75,7 +75,7 @@ export default function Translate() {
     return (
         <div className={styles.container}>
             <div className={styles["translate-wrapper"]}>
-                <TranslateForm selected={selected} save={saveToHistory} onShareUpdate={setShareInfo} />
+                <TranslateForm pastedValue={selected} onNewTranslation={saveToHistory} onShareUpdate={setShareInfo} />
                 <div className={styles.menu}>
                     <div title="Открыть Историю (Shift + H)" className={styles["menu-btn"]} onClick={toggleHistory}>
                         <HistoryIcon />

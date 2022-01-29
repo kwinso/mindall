@@ -15,8 +15,8 @@ export default function FullscreenModal({ isOpened, children, onClose, title }: 
         document.body.style.overflowY = isOpened ? "hidden" : "auto";
     }, [isOpened]);
 
-    return isOpened ? (
-        <div id="backdrop" className={`${styles.backdrop}`}>
+    return (
+        <div id="backdrop" className={`${styles.backdrop} ${isOpened ? styles.opened : styles.closed}`}>
             <div className={styles.modal}>
                 <div className={styles.header}>
                     <CloseIcon onClick={onClose} />
@@ -25,5 +25,5 @@ export default function FullscreenModal({ isOpened, children, onClose, title }: 
                 <div className={styles.content}>{children}</div>
             </div>
         </div>
-    ) : null;
+    );
 }
