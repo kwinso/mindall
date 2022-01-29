@@ -31,11 +31,19 @@ export default function TranslateForm({
 
     async function getShare() {
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN}/share/${params.id}`).catch((e) => {
-            alert.error(e.response.data.message);
+            let msg = e?.response?.data?.message ?? "Ошибка на сервере.";
+            alert.error(msg);
         });
         if (res) {
             setOriginalText(res.data.originalText);
             setEncoding(res.data.isEncoding);
+
+            if (params.id === "ad") {
+                if (localStorage.getItem("seenAdvHint") !== "1") {
+                    alert.info("Обновите страницу, чтобы получить новую цитату.");
+                    localStorage.setItem("seenAdvHint", "1");
+                }
+            }
         }
     }
 
@@ -74,12 +82,7 @@ export default function TranslateForm({
                             isEncoding,
                         });
                     } catch (e: any) {
-                        const res = e?.response?.data;
-                        let msg = "Не удалось связаться с сервером.";
-                        if (res && res.error && res.message) {
-                            msg = res.message;
-                            onShareUpdate(null);
-                        }
+                        let msg = e?.response?.data?.message ?? "Ошибка на сервере.";
                         alert.error(msg);
                     }
                 }, 1000)

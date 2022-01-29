@@ -4,10 +4,21 @@ const db = require("../db");
 const uniqid = require("uniqid");
 const { createShareQR } = require("../functions/qr");
 const router = Router();
-const wrap = require('async-middleware').wrap
+const wrap = require('async-middleware').wrap;
+const { getRandomCitate } = require("../functions/ad");
+
 
 router.get("/:id", wrap(async (req, res) => {
     const { id } = req.params;
+
+    if (id == "ad") {
+        const citate = getRandomCitate();
+        return res.status(200).json({
+            originalText: citate,
+            isEncoding: true
+        });
+    }
+
     const share = await db.Share.findOne({ id });
 
     if (!share) throw new HttpError("Ссылка не найдена. Возможно, она уже удалена.", 404);
@@ -22,7 +33,7 @@ router.get("/:id", wrap(async (req, res) => {
 router.post("/", async (req, res) => {
     const { originalText, isEncoding } = req.body;
 
-    if (!originalText || typeof(isEncoding) != "boolean") {
+    if (!originalText || typeof (isEncoding) != "boolean") {
         throw new HttpError("Неправильные параметры для создания записи.", 400);
     }
     if (originalText.length > 1000) {

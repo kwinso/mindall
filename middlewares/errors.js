@@ -9,7 +9,6 @@ module.exports = async function (error, _, res, next) {
         status = error.code;
 
     res.status(status).json({
-        error: true,
         message: status == 500 ? "Ошибка сервера." : error.message,
     });
 }
