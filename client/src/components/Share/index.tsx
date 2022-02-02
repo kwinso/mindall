@@ -33,20 +33,24 @@ export default function Share({ info }: Props) {
 
             setShare(data);
         } catch (e: any) {
+            console.log(e);
             alert.error("Не удалось создать ссылку: " + e?.repsonse?.data?.message ?? "Ошибка на сервере.");
             setError(true);
         }
     }
 
     useEffect(() => {
+        console.log(info);
+
         setError(false);
         if (lastShareText !== info.input) {
+            console.log("creating");
             createShare();
             lastShareText = info.input;
         } else {
             setShare(lastShare);
         }
-    }, []);
+    }, [info]);
 
     useEffect(() => {
         lastShare = share;

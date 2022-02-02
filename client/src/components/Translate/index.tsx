@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
 import TranslateForm from "../TranslateForm";
 import HistoryIcon from "@mui/icons-material/History";
@@ -8,16 +8,13 @@ import styles from "./styles.module.sass";
 import TranslateHistory from "../TranslateHistory";
 import { useHotkeys } from "react-hotkeys-hook";
 
-const mobileScreenWidth = 900;
-
 export default function Translate() {
     const [isHistoryOpened, setHistoryOpened] = useState<boolean>(false);
     const [isShareModalOpened, setShareOpened] = useState<boolean>(false);
     const [shareInfo, setShareInfo] = useState<{ input: string; encodeMode: boolean } | null>(null);
     // Selected value from history. By default is empty
-    const [selected, setSelected] = useState<Translation>({ input: "", output: "", decodeMode: true });
+    const [selected, setSelected] = useState<Translation>({ input: "", output: "", encodeMode: true });
     const [history, setHistory] = useState<Translation[]>([]);
-    const historyListRef = useRef<HTMLDivElement>(null);
 
     function onHistorySelect(selected: Translation) {
         setSelected(selected);
@@ -39,7 +36,7 @@ export default function Translate() {
         const text = params.get("t");
         const isDecoding = params.get("d") === "1";
         if (text) {
-            setSelected({ input: text, output: "", decodeMode: !isDecoding });
+            setSelected({ input: text, output: "", encodeMode: !isDecoding });
         }
     }, []);
 
@@ -58,15 +55,6 @@ export default function Translate() {
 
     function toggleHistory() {
         setHistoryOpened(!isHistoryOpened);
-
-        // Toggle animations for desktop history sidebar
-        if (window.screen.width >= mobileScreenWidth) {
-            const isOpened = historyListRef.current?.classList.contains(styles.active);
-            if (isOpened) {
-                return historyListRef.current?.classList.remove(styles.active);
-            }
-            return historyListRef.current?.classList.add(styles.active);
-        }
     }
 
     // Shortcut
@@ -83,7 +71,7 @@ export default function Translate() {
                     </div>
                     <button disabled={!shareInfo} title="Поделиться" className={styles["menu-btn"]} onClick={() => setShareOpened(true)}>
                         <ShareIcon />
-                        <span>Поделиться</span>
+                        <span>Делиться</span>
                     </button>
                 </div>
             </div>

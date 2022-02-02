@@ -3,5 +3,5 @@
 interface Translation {
     input: string,
     output: string,
-    decodeMode: boolean,
+    encodeMode: boolean,
 }

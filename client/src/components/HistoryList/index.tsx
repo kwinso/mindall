@@ -12,13 +12,9 @@ export default function HistoryList(props: { list: Translation[]; onSelect: (sel
     return (
         <div className={styles.list}>
             {props.list.length ? (
-                [...props.list].reverse().map(({ input: input, output: output, decodeMode: encodeMode }, i) => {
+                [...props.list].reverse().map(({ input, output, encodeMode }, i) => {
                     return (
-                        <div
-                            key={i}
-                            title="Перевести снова"
-                            onClick={() => props.onSelect({ input: input, output: output, decodeMode: encodeMode })}
-                        >
+                        <div key={i} title="Перевести снова" onClick={() => props.onSelect({ input, output, encodeMode })}>
                             <span className={styles.original}>{cropText(input, 20)}</span>
                             <br />
                             <span className={styles.translated}>{cropText(output, 30)}</span>

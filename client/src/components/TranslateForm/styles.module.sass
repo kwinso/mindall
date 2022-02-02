@@ -1,4 +1,5 @@
 .translate-form
+    width: 90%
     display: flex
     justify-content: center
     flex-direction: column
@@ -8,7 +9,7 @@
 .mode-swapper
     position: relative
     box-sizing: border-box
-    width: 90%
+    width: 100%
     max-width: 900px
     height: 55px
     background-color: var(--bright-bg)
@@ -30,11 +31,26 @@
         left: 0
         right: 0
 
+    .reveal
+        cursor: pointer
+        margin: auto
+        display: flex
+        align-items: center
+
+        &:hover
+            opacity: 0.6
+
+        span
+            margin-right: 10px
+
+        svg
+            position: inherit
+
 .results
     position: relative
     max-width: 900px
     display: flex
-    width: 90%
+    width: 100%
 
 textarea
     box-sizing: border-box
@@ -51,10 +67,11 @@ textarea
     border-bottom: 20px solid var(--bright-bg)
     scrollbar-color: var(--bright-bg)
     scrollbar-track-color: #fff8dc
+    // transition: width 1s
 
-textarea::placeholder
-    font-family: "Roboto", sans-serif
-    color: var(--placeholder)
+    &::placeholder
+        font-family: "Roboto", sans-serif
+        color: var(--placeholder)
 
 .input
     border-radius: 15px 0 0 15px
@@ -63,6 +80,10 @@ textarea::placeholder
     cursor: text
     opacity: 0.6
     border-radius: 0 15px 15px 0
+
+    &.share
+        width: 100%
+        border-radius: 20px
 
 .results button
     border: none
@@ -74,7 +95,6 @@ textarea::placeholder
     display: flex
     flex-direction: column
     justify-content: space-between
-    /* bottom: 0; */
     height: 100%
     right: 0
     padding: 15px
@@ -99,14 +119,19 @@ textarea::placeholder
     .mode-swapper
         width: 90%
 
+        .reveal span
+            font-size: 20px
+
     .results
         flex-direction: column
+        position: relative
         align-items: center
         width: 90%
+        max-height: 500px
         margin: auto
 
-    & textarea
-        width: 100%
+        textarea
+            width: 100%
 
     .input
         border-radius: 15px 15px 0 0
