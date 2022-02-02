@@ -103,15 +103,17 @@ export default function TranslateForm({
     }, []);
 
     function swapModes() {
-        setEncodeMode(!encodeMode);
+        if (input) {
+            if (output) {
+                const original = input;
+                setInput(output);
+                setOutput(original);
 
-        if (output && input) {
-            const original = input;
-            setInput(output);
-            setOutput(original);
+                onShareUpdate({ input: output, encodeMode: !encodeMode });
+                return;
+            }
 
-            onShareUpdate({ input: output, encodeMode: !encodeMode });
-            return;
+            translateInput(input, !encodeMode);
         }
     }
 
