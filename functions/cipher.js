@@ -2,9 +2,9 @@ const { HttpError } = require("../httpError");
 const fs = require("fs");
 const table = JSON.parse(fs.readFileSync("./table.json"));
 const translationMap = JSON.parse(fs.readFileSync("./translateMap.json"));
-const escapingChar = "119"; // just beyond the max value in the table
+const escapingChar = "120"; // just beyond the max value in the table
 // Represents last number that has own symbol so it can't be used
-const VALUES_RESERVED = 119;
+const EXTRA_VALUES_START = 120;
 const splitChar = ";";
 
 const extra = "qwzyjJQ[]{}()!@#$%^&*-+1234567890,./|\\~` "
@@ -12,17 +12,15 @@ const extra = "qwzyjJQ[]{}()!@#$%^&*-+1234567890,./|\\~` "
 function getExtraIndex(char) {
     // We start counting extra chars from the last reserved number
     // +1 since indexes are zero-based
-    return VALUES_RESERVED + 1 + extra.indexOf(char);
+    return EXTRA_VALUES_START + 1 + extra.indexOf(char);
 }
 
 //#region ENDCODING
 function encode(text) {
     // Replacing all russian chars with traslated to eng values
-    const chars = Array.from(text).reduce((arr, ch) => {
-        console.log(ch);
-        arr.push(translationMap[ch] ?? ch);
-        return arr;
-    }, []);
+    const chars = Array.from(text).reduce((str, ch) => {
+        return str + (translationMap[ch] ?? ch);
+    }, "").split("");
 
     // Output string
     let encoded = "";
@@ -37,15 +35,16 @@ function encode(text) {
             // Nothing to search, end of the string basically
             if (!char) break;
 
-            code = getSymbolFromChar(char);
-
-            if (extra.includes(char)) code = getExtraIndex(char);
+            if (extra.includes(char))
+                code = getExtraIndex(char);
+            else
+                code = getSymbolFromChar(char);
 
             // If no code, try to get a symbol with lower amount of digits in it
             if (!code) digitsInSymbol--;
             // No acceptable symbol found, leave char as it is.
             if (digitsInSymbol == 0) {
-                code = `${escapingChar}${char}${splitChar}`;
+                code = `${escapingChar}${char}`;
                 digitsInSymbol = char.length;
             }
         }
@@ -78,13 +77,14 @@ function getSymbolFromChar(char) {
 function decode(code) {
     let decoded = "";
     // replace extra spaces for convenient typing on phone
-    const symbols = code.replace(/\ ./gm, "").split(splitChar);
+    const chars = code.replace(/\ ./gm, "").split(splitChar);
+    console.log(chars);
 
-    for (let char of symbols) {
-        if (char.startsWith(getExtraIndex(" "))) {
-            decoded += " ";
-            char = char.slice(1);
-        }
+    for (let char of chars) {
+        // if (char.startsWith(getExtraIndex(" "))) {
+        //     decoded += " ";
+        //     char = char.slice(1);
+        // }
         // Process non-encoded characters
         if (char.startsWith(escapingChar)) {
             let str = char.slice(escapingChar.length);
@@ -100,26 +100,33 @@ function decode(code) {
     return decoded;
 }
 
-function decodeSymbol(encoded) {
+function decodeSymbol(num) {
     const codeRegExp = new RegExp(/(^\.?)\d+(\.?$)/);
-    let codeNumber = parseInt(encoded.replace(/\D/g, ""));
-    let decodedText = "";
 
     // Codes should be valid to be processed
-    if (!codeRegExp.test(encoded)) {
+    if (!codeRegExp.test(num)) {
         throw new HttpError("Неверный код.", 400);
     }
 
+    let codeNumber = parseInt(num.replace(/\D/g, ""));
+
+    if (codeNumber >= EXTRA_VALUES_START) {
+        return extra[codeNumber - EXTRA_VALUES_START - 1];
+    }
+
+    let decodedValue = "";
     for (let { number, symbol } of table) {
         if (number == codeNumber) {
             // Getting only first/last/ or all chars in symbol.
-            if (encoded.startsWith(".")) decodedText += symbol[0];
-            else if (encoded.endsWith(".") && encoded.length > 1) decodedText += symbol[symbol.length - 1];
-            else decodedText += symbol;
+            if (num.startsWith(".")) decodedValue += symbol[0];
+            else if (num.endsWith(".") && num.length > 1) decodedValue += symbol[symbol.length - 1];
+            else decodedValue += symbol;
         }
     }
 
-    return decodedText;
+
+
+    return decodedValue;
 }
 //#endregion
 
