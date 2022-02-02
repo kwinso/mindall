@@ -166,7 +166,7 @@ export default function TranslateForm({
                         rows={10}
                         readOnly
                         placeholder={`${encodeMode ? "Код" : "Текст..."}`}
-                        value={encodeMode ? output : input}
+                        value={(encodeMode ? output : input) || "Загружаем..."}
                     />
                 ) : (
                     <>
