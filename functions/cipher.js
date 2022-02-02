@@ -78,7 +78,6 @@ function decode(code) {
     let decoded = "";
     // replace extra spaces for convenient typing on phone
     const chars = code.replace(/\ ./gm, "").split(splitChar);
-    console.log(chars);
 
     for (let char of chars) {
         // if (char.startsWith(getExtraIndex(" "))) {
