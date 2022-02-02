@@ -2,22 +2,28 @@ const { HttpError } = require("../httpError");
 const fs = require("fs");
 const table = JSON.parse(fs.readFileSync("./table.json"));
 const translationMap = JSON.parse(fs.readFileSync("./translateMap.json"));
-const escapingChar = "+";
+const escapingChar = "119"; // just beyond the max value in the table
+// Represents last number that has own symbol so it can't be used
+const VALUES_RESERVED = 119;
 const splitChar = ";";
 
-// TODO:
-/*
-    1. Add termination char (x) to decoding (the opposit of dot (.) ) 
-*/
+const extra = "qwzyjJQ[]{}()!@#$%^&*-+1234567890,./|\\~` "
 
+function getExtraIndex(char) {
+    // We start counting extra chars from the last reserved number
+    // +1 since indexes are zero-based
+    return VALUES_RESERVED + 1 + extra.indexOf(char);
+}
 
 //#region ENDCODING
 function encode(text) {
     // Replacing all russian chars with traslated to eng values
-    const chars = text.split("").reduce((str, ch) => {
-        return str + (translationMap[ch] ?? ch);
-    }, "").split("");
-    
+    const chars = Array.from(text).reduce((arr, ch) => {
+        console.log(ch);
+        arr.push(translationMap[ch] ?? ch);
+        return arr;
+    }, []);
+
     // Output string
     let encoded = "";
 
@@ -27,32 +33,25 @@ function encode(text) {
         let code = null;
 
         while (!code) {
-            let symbolToFind = chars.slice(i, i + digitsInSymbol).join("");
+            let char = chars.slice(i, i + digitsInSymbol).join("");
             // Nothing to search, end of the string basically
-            if (!symbolToFind) break;
+            if (!char) break;
 
-            switch (symbolToFind) {
-                case " ": {
-                    code = "_";
-                    break;
-                }
-                default: {
-                    code = encodeSymbol(symbolToFind);
-                }
-            }
+            code = getSymbolFromChar(char);
 
+            if (extra.includes(char)) code = getExtraIndex(char);
 
             // If no code, try to get a symbol with lower amount of digits in it
             if (!code) digitsInSymbol--;
             // No acceptable symbol found, leave char as it is.
             if (digitsInSymbol == 0) {
-                code = `${escapingChar}${symbolToFind}${splitChar}`;
-                digitsInSymbol = symbolToFind.length;
+                code = `${escapingChar}${char}${splitChar}`;
+                digitsInSymbol = char.length;
             }
         }
         // Add found code to the output string
         if (code)
-            encoded += code;
+            encoded += code + splitChar;
         // This needed to skip already encoded chars
         i += digitsInSymbol;
     }
@@ -61,16 +60,17 @@ function encode(text) {
     return encoded.replace(/;$/, "");
 }
 
-function encodeSymbol(symbolToFind) {
+function getSymbolFromChar(char) {
     for (let { symbol, number } of table) {
-        if (symbol == symbolToFind) {
-            return `${number}${splitChar}`;
-        } else if (symbol.includes(symbolToFind)) {
-            return (symbol.indexOf(symbolToFind) == 0 ? `.${number}` : `${number}.`) + splitChar;
+        if (symbol == char) {
+            return `${number}`;
+        } else if (symbol.includes(char)) {
+            return (symbol.indexOf(char) == 0 ? `.${number}` : `${number}.`);
         }
     }
 
     return null;
+
 }
 //#endregion
 
@@ -81,14 +81,14 @@ function decode(code) {
     const symbols = code.replace(/\ ./gm, "").split(splitChar);
 
     for (let char of symbols) {
-        if (char.startsWith("_")) {
+        if (char.startsWith(getExtraIndex(" "))) {
             decoded += " ";
             char = char.slice(1);
         }
         // Process non-encoded characters
-        if (char.startsWith(escapingChar)) { 
-            let str = char.slice(1);
-            // if there's an empty string after $, its a split character
+        if (char.startsWith(escapingChar)) {
+            let str = char.slice(escapingChar.length);
+            // if there's an empty string after split character, its a split character
             decoded += str == "" ? splitChar : str;
             continue;
         }
@@ -123,6 +123,6 @@ function decodeSymbol(encoded) {
 }
 //#endregion
 
-module.exports = { 
+module.exports = {
     decode, encode
 }
