@@ -8,7 +8,7 @@ import AlertTemplate from "react-alert-template-basic";
 
 function App() {
     return (
-        <AlertProvider template={AlertTemplate} position="top center" transition="scale" timeout={3000}>
+        <AlertProvider template={AlertTemplate} position="top center" transition="scale" timeout={4000}>
             <div className="wrapper">
                 <Header />
                 <Switch>
