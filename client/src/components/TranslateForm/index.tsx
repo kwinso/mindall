@@ -103,18 +103,16 @@ export default function TranslateForm({
     }, []);
 
     function swapModes() {
-        if (input) {
-            if (output) {
-                const original = input;
-                setInput(output);
-                setOutput(original);
+        if (input && output) {
+            const original = input;
+            setInput(output);
+            setOutput(original);
 
-                onShareUpdate({ input: output, encodeMode: !encodeMode });
-                return;
-            }
-
-            translateInput(input, !encodeMode);
+            onShareUpdate({ input: output, encodeMode: !encodeMode });
+            return;
         }
+
+        translateInput(input, !encodeMode);
     }
 
     // Handle pasting from the history
