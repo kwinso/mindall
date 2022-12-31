@@ -41,7 +41,7 @@ export default function TranslateForm({
             setTypingTimeout(
                 setTimeout(async () => {
                     try {
-                        const { data } = await axios.get(`${process.env.REACT_APP_DOMAIN}/${encodeMode ? "encode" : "decode"}`, {
+                        const { data } = await axios.get(`${process.env.REACT_APP_DOMAIN ?? ""}/${encodeMode ? "encode" : "decode"}`, {
                             params: { text: t }
                         });
                         setOutput(data.result);
