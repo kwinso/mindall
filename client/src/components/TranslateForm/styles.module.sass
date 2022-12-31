@@ -1,50 +1,30 @@
 .translate-form
-    width: 90%
     display: flex
-    justify-content: center
     flex-direction: column
-    align-items: center
     margin: 0 auto
 
 .mode-swapper
     position: relative
-    box-sizing: border-box
-    width: 100%
-    max-width: 900px
-    height: 55px
-    background-color: var(--bright-bg)
-    border-radius: 15px
     display: flex
-    justify-content: space-between
+    justify-content: flex-start
     align-items: center
     padding: 0px 20px
-    font-size: 25px
-    margin-bottom: 25px
+    font-size: 20px
+    margin-bottom: 35px
 
-    & svg
-        position: absolute
-        fill: var(--accent)
+    span
+        display: inline-block
+        width: 100px
+
+        &:last-child
+            text-align: end
+
+    & img
+        width: 20px
         cursor: pointer
-        font-size: 35px
-        margin-left: auto
-        margin-right: auto
+        margin: 0px 50px
         left: 0
         right: 0
-
-    .reveal
-        cursor: pointer
-        margin: auto
-        display: flex
-        align-items: center
-
-        &:hover
-            opacity: 0.6
-
-        span
-            margin-right: 10px
-
-        svg
-            position: inherit
 
 .results
     position: relative
@@ -53,74 +33,60 @@
     width: 100%
 
 textarea
+    font-family: "Ubuntu", sans-serif
     box-sizing: border-box
-    height: 200px
-    width: 50%
+    width: 100%
     resize: none
     outline: none
     font-size: 25px
-    padding: 0 20px
+    padding: 10px 30px
     background-color: var(--bright-bg)
     border: none
     color: var(--text)
     border-top: 20px solid var(--bright-bg)
     border-bottom: 20px solid var(--bright-bg)
     scrollbar-color: var(--bright-bg)
-    scrollbar-track-color: #fff8dc
-    // transition: width 1s
+    border-radius: 15px
 
     &::placeholder
-        font-family: "Roboto", sans-serif
+        font-family: "Ubuntu", sans-serif
         color: var(--placeholder)
 
-.input
-    border-radius: 15px 0 0 15px
 
-.output
-    cursor: text
-    opacity: 0.6
-    border-radius: 0 15px 15px 0
+.inputContainer
+    position: relative
 
-    &.share
-        width: 100%
-        border-radius: 20px
+    &:last-child
+        margin-top: 20px
 
-.results button
-    border: none
-    outline: none
-    background-color: transparent
-
-.menu-buttons
-    position: absolute
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-    height: 100%
-    right: 0
-    padding: 15px
-
-    & svg
+    .inputButtons
         cursor: pointer
-        font-size: 35px
-        fill: var(--accent)
+        padding: 10px
+        border-radius: 10px
+        margin: 20px 30px
+        right: 0
+        bottom: 0
+        z-index: 1
+        display: flex
+        position: absolute
 
-    & svg:hover
-        opacity: .8
+        &:hover
+            background: var(--dark-text)
 
-@media only screen and (min-width: 900px)
-    .history:hover
-        background-color: var(--bright-bg)
+        img
+            width: 25px
 
 @media only screen and (max-width: 900px)
     .translate-form
+        display: flex
         margin-top: 30px
+        padding-bottom: 20px
         width: 90%
 
     .mode-swapper
-        width: 90%
-
-        .reveal span
-            font-size: 20px
+        justify-content: center
+        font-size: 18px
+        width: 100%
 
     .results
         flex-direction: column
@@ -131,10 +97,5 @@ textarea
         margin: auto
 
         textarea
+            height: 300px
             width: 100%
-
-    .input
-        border-radius: 15px 15px 0 0
-
-    .output
-        border-radius: 0 0 15px 15px

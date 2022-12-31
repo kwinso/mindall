@@ -2,10 +2,10 @@
 // Теперь чуть получше)
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.sass";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import ContentPasteIcon from "@mui/icons-material/ContentPaste";
+import SwapHorizIcon from "../../assets/icons/swap.svg";
+import Copy from "../../assets/icons/copy.svg";
+import Delete from "../../assets/icons/delete.svg";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 
 import { useAlert } from "react-alert";
@@ -14,12 +14,8 @@ import { copyText } from "../../utils";
 
 export default function TranslateForm({
     pastedValue,
-    onNewTranslation,
-    onShareUpdate,
 }: {
     pastedValue: Translation;
-    onNewTranslation: (arg1: Translation) => any;
-    onShareUpdate: (update: { input: string; encodeMode: boolean } | null) => any;
 }) {
     const alert = useAlert();
     const params = useParams<{ id: string }>();
@@ -45,17 +41,10 @@ export default function TranslateForm({
             setTypingTimeout(
                 setTimeout(async () => {
                     try {
-                        const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN}/cipher/${encodeMode ? "encode" : "decode"}`, {
-                            original: t,
+                        const { data } = await axios.get(`${process.env.REACT_APP_DOMAIN}/${encodeMode ? "encode" : "decode"}`, {
+                            params: { text: t }
                         });
                         setOutput(data.result);
-                        onShareUpdate({ input: t, encodeMode });
-
-                        onNewTranslation({
-                            output: data.result,
-                            input: t,
-                            encodeMode,
-                        });
                     } catch (e: any) {
                         let msg = e?.response?.data?.message ?? "Ошибка на сервере.";
                         alert.error(msg);
@@ -66,7 +55,6 @@ export default function TranslateForm({
             // Clear translated text if original text is none
             if (output && !isPastedFromHistory) {
                 setOutput("");
-                onShareUpdate(null);
             }
 
             clearTimeout(typingTimeout);
@@ -106,22 +94,14 @@ export default function TranslateForm({
         if (input && output) {
             const original = input;
             setInput(output);
+            setEncodeMode(!encodeMode);
             setOutput(original);
 
-            onShareUpdate({ input: output, encodeMode: !encodeMode });
             return;
         }
 
         translateInput(input, !encodeMode);
     }
-
-    // Handle pasting from the history
-    useEffect(() => {
-        setEncodeMode(pastedValue?.encodeMode);
-        setInput(pastedValue.input);
-        setOutput(pastedValue.output);
-        onShareUpdate({ input: pastedValue.input, encodeMode: pastedValue?.encodeMode });
-    }, [pastedValue]);
 
     function copyTranslated() {
         if (output) {
@@ -133,7 +113,6 @@ export default function TranslateForm({
     function clearFields() {
         setInput("");
         setOutput("");
-        onShareUpdate(null);
     }
 
     return (
@@ -152,50 +131,47 @@ export default function TranslateForm({
                 ) : (
                     <>
                         <span>{encodeMode ? "Текст" : "Код"}</span>
-                        <SwapHorizIcon onClick={swapModes} />
+                        <img src={SwapHorizIcon} onClick={swapModes} alt="Swap" />
                         <span>{encodeMode ? "Код" : "Текст"}</span>
                     </>
                 )}
             </div>
 
-            <div className={styles.results}>
-                {inShareMode ? (
-                    <textarea
-                        className={`${styles.output} ${styles.share}`}
-                        cols={40}
-                        rows={10}
-                        readOnly
-                        placeholder={`${encodeMode ? "Код" : "Текст..."}`}
-                        value={(encodeMode ? output : input) || "Загружаем..."}
-                    />
-                ) : (
-                    <>
-                        <textarea
-                            id="from"
-                            className={styles.input}
-                            cols={40}
-                            rows={10}
-                            placeholder={`${encodeMode ? "Текст..." : "Код"}`}
-                            value={input}
-                            onChange={(e) => translateInput(e.target.value, encodeMode)}
-                        />
-                        <textarea
-                            id="to"
-                            className={styles.output}
-                            cols={40}
-                            rows={10}
-                            readOnly
-                            placeholder={encodeMode ? "Код" : "Текст..."}
-                            value={output}
-                        />
-                    </>
-                )}
 
-                <div className={styles["menu-buttons"]}>
-                    {!inShareMode && <ClearIcon onClick={clearFields} />}
-                    <ContentPasteIcon onClick={copyTranslated} />
+            <div className={styles.inputContainer}>
+                <textarea
+                    id="from"
+                    className={styles.input}
+                    cols={40}
+                    rows={10}
+                    placeholder={`${encodeMode ? "Текст..." : "Код..."}`}
+                    value={input}
+                    onChange={(e) => translateInput(e.target.value, encodeMode)}
+                />
+                <div className={styles.inputButtons}>
+                    <img src={Delete} onClick={clearFields} />
                 </div>
             </div>
+
+            <div className={styles.inputContainer}>
+                <textarea
+                    id="to"
+                    className={styles.output}
+                    cols={40}
+                    rows={10}
+                    readOnly
+                    placeholder={encodeMode ? "Код..." : "Текст..."}
+                    value={output}
+                />
+                <div className={styles.inputButtons} onClick={copyTranslated}>
+                    <img src={Copy} />
+                </div>
+            </div>
+
+            {/* <div className={styles["menu-buttons"]}>
+                {!inShareMode && <ClearIcon onClick={clearFields} />}
+                <ContentPasteIcon onClick={copyTranslated} />
+            </div> */}
         </div>
     );
 }
