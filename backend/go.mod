@@ -1,4 +1,4 @@
-module github.com/kwinso/mindall-backend
+module mindall-backend
 
 go 1.19
 
