@@ -7,6 +7,7 @@ import (
 	"mindall-backend/mindall"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func loadElements() []string {
@@ -32,6 +33,8 @@ type TranslationResponse struct {
 func main() {
 	app := fiber.New()
 	elems := loadElements()
+
+	app.Use(cors.New())
 
 	app.Get("/encode", func(c *fiber.Ctx) error {
 		text := c.Query("text")
