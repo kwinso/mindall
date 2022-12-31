@@ -9,11 +9,6 @@ export default function Header() {
                 <img src={Logo} alt="Logo" />
                 <span>Mindall</span>
             </div>
-            {/* <a href="/chat">
-                <button className={styles.chat}>
-                    <img src={Chat} alt="Chat" />
-                </button>
-            </a> */}
         </header>
     );
 }
