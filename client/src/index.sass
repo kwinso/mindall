@@ -1,29 +1,32 @@
 \:root
-  --placeholder: #4b4a4a
   --accent: white
   --background: #090E11
   --text: #D8D9DA
   --dark-text: #343B41
-  --bright-bg: #0c1114
+  --bg-alt: #11171b
 
 body
-  overflow-x: hidden
-  padding: 0
-  margin: 0
-  color: var(--text)
-  background-color: var(--background)
-  -webkit-font-smoothing: antialiased
-  -moz-osx-font-smoothing: grayscale
+    overflow-x: hidden
+    padding: 0
+    margin: 0
+    color: var(--text)
+    background-color: var(--background)
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+#root, body, html
+  height: 100%
 
 *
   font-family: 'Ubuntu',  sans-serif
   box-sizing: border-box
 
+a
+    color: var(--dark-text)
+    transition: 0.5s
+
+    &:hover
+        color: var(--accent)
+
 img
   user-select: none
-
-.wrapper
-  clear: both
-  min-height: 600px
-  height: 100vh
-  width: 100%

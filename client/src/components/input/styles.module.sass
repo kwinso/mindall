@@ -1,0 +1,32 @@
+.inputContainer
+    position: relative
+    height: 200px
+
+    &:nth-child(3)
+        margin-top: 20px 
+
+    @media only screen and (max-width: 900px)
+        margin-top: 0px 
+        height: 50%
+
+    .inputButtons
+        transition: 0.3s
+        margin: 20px 30px
+        right: 0
+        bottom: 0
+        z-index: 1
+        display: flex
+        position: absolute
+
+        @media only screen and (max-width: 900px)
+            display: none
+
+        img
+            cursor: pointer
+            border-radius: 10px
+            padding: 10px
+            width: 40px
+
+            &:hover
+                background: var(--dark-text)
+            
