@@ -108,7 +108,10 @@ export default function TranslateForm({
         }
     }, []);
 
-    function swapModes() {
+    function swapModes(e: any) {
+        e.preventDefault();
+        e.stopPropagation();
+
         if (input && output) {
             const original = input;
             setInput(output);
@@ -121,14 +124,20 @@ export default function TranslateForm({
         translateInput(input, !encodeMode);
     }
 
-    function copyTranslated() {
+    function copyTranslated(e: any) {
+        e.preventDefault();
+        e.stopPropagation();
+
         if (output) {
             copyText(output);
             alert.show("Текст скопирован в буфер обмена.");
         }
     }
 
-    function clearFields() {
+    function clearFields(e: any) {
+        e.preventDefault();
+        e.stopPropagation();
+
         setInput("");
         setOutput("");
     }
@@ -137,7 +146,7 @@ export default function TranslateForm({
         <div className={styles["translate-form"]}>
             <div className={styles["mode-swapper"]}>
                 <span>{encodeMode ? "Текст" : "Код"}</span>
-                <img className={styles.swapButton} src={SwapHorizIcon} onClick={swapModes} alt="Swap" />
+                <img className={styles.swapButton} src={SwapHorizIcon} onMouseDown={swapModes} alt="Swap" />
                 <span>{encodeMode ? "Код" : "Текст"}</span>
                 {/* {inShareMode ? (
                     <div
@@ -173,9 +182,9 @@ export default function TranslateForm({
             </AppInput>
 
             <div className={styles.toolbar}>
-                <img src={Copy} onClick={copyTranslated} />
-                <img className={styles.swapButton} src={SwapHorizIcon} onClick={swapModes} alt="Swap" />
-                <img src={Delete} onClick={clearFields} />
+                <img src={Copy} onMouseDown={copyTranslated} />
+                <img className={styles.swapButton} src={SwapHorizIcon} onMouseDown={swapModes} alt="Swap" />
+                <img src={Delete} onMouseDown={clearFields} />
             </div>
 
         </div>
