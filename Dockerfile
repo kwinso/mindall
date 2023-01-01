@@ -18,7 +18,7 @@ RUN go mod download
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ./mindall-backend .
 
 
-FROM golang:1.19-alpine as prod
+FROM alpine:latest as prod
 
 WORKDIR /app/backend
 
