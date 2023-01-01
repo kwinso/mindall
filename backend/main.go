@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"mindall-backend/mindall"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -12,7 +12,7 @@ import (
 
 func loadElements() []string {
 	var data []string
-	file, err := ioutil.ReadFile("elements.json")
+	file, err := os.ReadFile("elements.json")
 	if err != nil {
 		log.Fatal(err)
 	}
