@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"mindall-backend/mindall"
 	"os"
@@ -10,9 +11,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
-func loadElements() []string {
-	var data []string
-	file, err := os.ReadFile("elements.json")
+func loadAsset[ItemType any](asset string) ItemType {
+	var data ItemType
+	file, err := os.ReadFile(fmt.Sprintf("../assets/%s.json", asset))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,14 +33,15 @@ type TranslationResponse struct {
 
 func main() {
 	app := fiber.New()
-	elems := loadElements()
+	elems := loadAsset[[]string]("elements")
+	translations := loadAsset[map[string]string]("translationMap")
 
 	app.Use(cors.New())
 
 	app.Get("/encode", func(c *fiber.Ctx) error {
 		text := c.Query("text")
 		return c.JSON(TranslationResponse{
-			Result: mindall.Encode(text, &elems),
+			Result: mindall.Encode(text, &elems, &translations),
 		})
 	})
 

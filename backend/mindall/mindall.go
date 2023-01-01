@@ -7,7 +7,8 @@ import (
 	"strings"
 )
 
-func Encode(text string, elems *[]string) string {
+func Encode(text string, elems *[]string, translationMap *map[string]string) string {
+	text = utils.ReplaceTranslatableCharacters(text, *translationMap)
 	pat := regexp.MustCompile(`[A-Z][a-z]|[A-Z]|[a-z]|[^A-Za-z0-9]|\d+`)
 	encoded := utils.MapStringSlice(pat.FindAllString(text, -1), func(s string) string { return encodeChar(s, elems, false) })
 
