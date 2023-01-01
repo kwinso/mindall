@@ -2,12 +2,44 @@
     position: relative
     height: 200px
 
+
     &:nth-child(3)
         margin-top: 20px 
 
+    textarea
+        font-family: "Ubuntu", sans-serif
+        box-sizing: border-box
+        width: 100%
+        resize: none
+        outline: none
+        height: 100%
+        font-size: 25px
+        padding: 20px 30px
+        background: none
+        border: none
+        color: var(--text)
+        scrollbar-color: var(--bg-alt)
+        border-radius: 20px
+        background: var(--bg-alt)
+
+        &::placeholder
+            font-family: "Ubuntu", sans-serif
+            color: var(--dark-text)
+
     @media only screen and (max-width: 900px)
-        margin-top: 0px 
         height: 50%
+
+        &:nth-child(3)
+            background: var(--bg-alt)
+            margin-top: 0 
+
+            textarea
+                background: var(--background)
+    
+        textarea
+            height: 100%
+            border-bottom-left-radius: 0
+            border-bottom-right-radius: 0
 
     .inputButtons
         transition: 0.3s
