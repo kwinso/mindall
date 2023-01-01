@@ -1,0 +1,79 @@
+.translate-form
+    display: flex
+    width: 60%
+    margin: 0 auto
+    flex-direction: column
+
+.mode-swapper
+    position: relative
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    padding: 0px 20px
+    font-size: 20px
+    margin-bottom: 35px
+
+    span
+        display: inline-block
+        width: 100px
+
+        &:last-child
+            text-align: end
+            
+.swapButton
+    width: 20px
+    cursor: pointer
+    margin: 0px 50px
+    left: 0
+    right: 0
+
+.toolbar
+    display: none
+
+textarea
+    font-family: "Ubuntu", sans-serif
+    box-sizing: border-box
+    width: 100%
+    resize: none
+    outline: none
+    height: 100%
+    font-size: 25px
+    padding: 20px 30px
+    background-color: var(--bg-alt)
+    border: none
+    color: var(--text)
+    scrollbar-color: var(--bg-alt)
+    border-radius: 15px
+
+    &::placeholder
+        font-family: "Ubuntu", sans-serif
+        color: var(--dark-text)
+
+
+@media only screen and (max-width: 900px)
+    .translate-form
+        height: 100%
+        width: 100%
+        position: relative
+        display: flex
+        align-items: center
+        overflow: hidden
+
+    .toolbar
+        display: flex
+        position: absolute
+        justify-content: space-between
+        bottom: 0
+        margin-bottom: 20px
+        background: var(--bg-alt)
+        width: 60%
+        border-radius: 15px
+        padding: 20px
+
+    .mode-swapper
+        display: none
+    
+    textarea
+        background: none
+        height: 100%
+        border-radius: 0

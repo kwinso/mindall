@@ -50,7 +50,7 @@ func main() {
 		})
 	})
 
-	app.Static("/", "../client/build")
+	app.Static("/", "../client/dist")
 
 	app.Listen(":8080")
 }
