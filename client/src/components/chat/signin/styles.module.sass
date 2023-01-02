@@ -1,0 +1,46 @@
+.signIn
+    display: flex
+    flex-direction: column 
+    align-items: center
+    text-align: center
+    margin-bottom: 20px
+
+    h1, h5
+        margin-bottom: 0
+
+    h5
+        margin-top: 10px
+        width: 80%
+        color: var(--dark-text)
+
+    input
+        margin: 60px 0
+        width: 70%
+        background: var(--bg-alt)
+        border: 1px solid var(--dark-text)
+        color: white
+        padding: 10px
+        outline: none
+        font-size: 25px
+        border-radius: 12px
+        
+        &::placeholder
+            text-align: center 
+            color: var(--dark-text)
+
+    button
+        transition: 0.5s
+        border: none
+        color: white
+        padding: 10px 20px
+        border-radius: 12px
+        font-size: 18px
+        background: var(--dark-text)
+
+        &:hover
+            background: var(--bg-alt)
+
+    @media only screen and (max-width: 900px)
+        justify-content: flex-start
+        button:hover
+            background: var(--dark-text)

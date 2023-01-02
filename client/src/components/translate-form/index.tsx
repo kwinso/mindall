@@ -165,6 +165,12 @@ export default function TranslateForm({
             </div>
 
 
+            <div className={styles.toolbar}>
+                <img src={Copy} onMouseDown={copyTranslated} />
+                <img className={styles.swapButton} src={SwapHorizIcon} onMouseDown={swapModes} alt="Swap" />
+                <img src={Delete} onMouseDown={clearFields} />
+            </div>
+
             <AppInput
                     placeholder={`${encodeMode ? "Текст..." : "Код..."}`}
                     value={input}
@@ -180,13 +186,6 @@ export default function TranslateForm({
             >
                 <img src={Copy} onClick={copyTranslated} />
             </AppInput>
-
-            <div className={styles.toolbar}>
-                <img src={Copy} onMouseDown={copyTranslated} />
-                <img className={styles.swapButton} src={SwapHorizIcon} onMouseDown={swapModes} alt="Swap" />
-                <img src={Delete} onMouseDown={clearFields} />
-            </div>
-
         </div>
     );
 }

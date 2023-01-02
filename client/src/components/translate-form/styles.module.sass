@@ -1,6 +1,6 @@
 .translate-form
     display: flex
-    width: 60%
+    width: 40%
     margin: 0 auto
     flex-direction: column
 
@@ -43,14 +43,19 @@
 
     .toolbar
         display: flex
-        position: absolute
         justify-content: space-between
-        bottom: 0
+        width: 90%
         margin-bottom: 20px
         background: var(--bg-alt)
-        width: 60%
         border-radius: 20px
         padding: 20px
+
+    @supports (-moz-appearance:none)
+        .toolbar
+            width: 60%
+            z-index: 1
+            position: absolute
+            bottom: 0
 
     .mode-swapper
         display: none

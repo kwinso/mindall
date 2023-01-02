@@ -6,20 +6,43 @@
   --bg-alt: #11171b
 
 body
-    overflow-x: hidden
-    padding: 0
-    margin: 0
-    color: var(--text)
-    background-color: var(--background)
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
+  padding: 0
+  margin: 0
+  color: var(--text)
+  background-color: var(--background)
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
 
-#root, body, html
+
+#root, body, html, .App
+  overflow-y: hidden
   height: 100%
 
 *
   font-family: 'Ubuntu',  sans-serif
   box-sizing: border-box
+
+
+img
+  user-select: none
+
+
+.App
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content:  space-between
+
+.footer
+    padding-bottom: 30px
+    text-align: center
+    color: var(--dark-text)
+
+    span
+        color: var(--placeholder)
+
+    @media only screen and (max-width: 900px)
+        display: none
 
 a
     color: var(--dark-text)
@@ -27,6 +50,17 @@ a
 
     &:hover
         color: var(--accent)
+
+    &.buttonLink
+        display: inline-block
+        padding: 8px 15px
+        border-radius: 12px
+        color: white
+        text-decoration: none
+        background: var(--dark-text)
+
+        &:hover
+            background: var(--bg-alt)
 
 img
   user-select: none
