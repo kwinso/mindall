@@ -1,11 +1,9 @@
-import React, { Children } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
-// import App from './App'
 import { AlertTemplate } from './components/alert';
 import { Provider as AlertProvider } from 'react-alert'
 import './index.sass'
 import Snowfall from 'react-snowfall';
-import packageInfo from "../package.json"
 import {
   createBrowserRouter,
   Outlet,
@@ -36,12 +34,6 @@ function MainLayout() {
       <Header isNewYearTime={isNewYearTime} />
 
       <Outlet />
-
-      <div className="footer">
-        Mindall v{packageInfo.version}
-        <br />
-        By <a href={packageInfo.author.url}>{packageInfo.author.name}</a>
-      </div>
     </div>
   </AlertProvider>
 }

@@ -11,8 +11,8 @@ export function ChatSignIn(props: Props) {
     return <div className={styles.signIn}>
         <h1>Чат</h1>
         <h5>Чат Mindall будет преобразовываeт ваши сообщения в шифр налету!</h5>
-        <input onChange={(v) =>  setValue(v.target.value)} placeholder="Придумайте имя..." />
 
+        <input onChange={(v) =>  setValue(v.target.value)} placeholder="Придумайте имя..." />
         <button onClick={() => props.onSubmit(value)}>Присоединиться!</button>
     </div>
 }
