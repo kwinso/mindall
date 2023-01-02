@@ -2,13 +2,16 @@ import styles from "./styles.module.sass";
 import Logo from "../../assets/logo.svg"
 import NewYearLogo from "../../assets/new-year-logo.svg";
 import { Link, useLocation } from "react-router-dom";
+import { checkNewYearTime } from "../../utils/newYear";
 
-export function Header(props: { isNewYearTime: boolean }) {
+export function Header() {
+    const isNewYearTime = checkNewYearTime();
+
     const { pathname } = useLocation();
 
     return <div className={styles.header}>
         <div />
-        <img src={props.isNewYearTime ? NewYearLogo : Logo} alt="Mindall" />
+        <img src={isNewYearTime ? NewYearLogo : Logo} alt="Mindall" />
 
 
         <div className={styles.links}>
